@@ -5,7 +5,7 @@ import { Header } from './Header';
 
 export const ProtectedLayout: React.FC = () => {
   return (
-    <div className="flex min-h-screen bg-[#090D16] text-slate-100 antialiased selection:bg-blue-500 selection:text-white">
+    <div className="flex min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-blue-600 selection:text-white">
       <Sidebar />
       <div className="flex-1 flex flex-col min-w-0">
         <Header />

@@ -1,11 +1,38 @@
-export type UserRole = 'Enterprise Admin' | 'Security Engineer' | 'Data Compliance Officer' | 'Auditor' | 'Standard User';
+export const UserRole = {
+  Employee: 'Employee',
+  Manager: 'Manager',
+  CEO: 'CEO',
+  EnterpriseAdmin: 'Enterprise Admin',
+} as const;
+export type UserRole = 'Employee' | 'Manager' | 'CEO' | 'Enterprise Admin';
+
+export const Department = {
+  Finance: 'Finance',
+  Manufacturing: 'Manufacturing',
+  HR: 'HR',
+  Executive: 'Executive',
+  IT: 'IT',
+} as const;
+export type Department = 'Finance' | 'Manufacturing' | 'HR' | 'Executive' | 'IT';
+
+export const PermissionAction = {
+  VIEW: 'VIEW',
+  UPLOAD: 'UPLOAD',
+  EDIT: 'EDIT',
+  DELETE: 'DELETE',
+  RAG_ACCESS: 'RAG_ACCESS',
+} as const;
+export type PermissionAction = 'VIEW' | 'UPLOAD' | 'EDIT' | 'DELETE' | 'RAG_ACCESS';
 
 export interface User {
   id: string;
   name: string;
   email: string;
   role: UserRole;
+  department: Department;
   tenant: string;
+  permissions: PermissionAction[];
+  accessibleDepartments: Department[];
   createdAt: string;
   avatarUrl?: string;
 }
@@ -36,6 +63,7 @@ export interface RegisterParams {
   email: string;
   password: string;
   confirmPassword: string;
+  department?: Department;
   tenantName?: string;
 }
 

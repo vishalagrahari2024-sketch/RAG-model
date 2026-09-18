@@ -16,6 +16,7 @@ import { ResetPasswordPage } from './pages/public/ResetPasswordPage';
 // Protected Pages
 import { DashboardPage } from './pages/protected/DashboardPage';
 import { KnowledgeBasePage } from './pages/protected/KnowledgeBasePage';
+import { UploadPage } from './pages/protected/UploadPage';
 import { ChatPage } from './pages/protected/ChatPage';
 import { AccessControlPage } from './pages/protected/AccessControlPage';
 import { GuardrailsPage } from './pages/protected/GuardrailsPage';
@@ -46,7 +47,9 @@ export function App() {
             }
           >
             <Route path="/dashboard" element={<DashboardPage />} />
-            <Route path="/knowledge-base" element={<KnowledgeBasePage />} />
+            <Route path="/documents" element={<KnowledgeBasePage />} />
+            <Route path="/knowledge-base" element={<Navigate to="/documents" replace />} />
+            <Route path="/upload" element={<UploadPage />} />
             <Route path="/chat" element={<ChatPage />} />
             <Route path="/access-control" element={<AccessControlPage />} />
             <Route path="/guardrails" element={<GuardrailsPage />} />

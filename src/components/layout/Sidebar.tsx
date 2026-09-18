@@ -1,22 +1,28 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import {
   LayoutDashboard,
-  Database,
+  FileText,
   MessageSquare,
-  ShieldAlert,
+  UploadCloud,
+  ShieldCheck,
   Sliders,
   Activity,
-  FileText,
+  FileSpreadsheet,
   Settings,
   ChevronLeft,
   ChevronRight,
-  Shield,
-  CheckCircle2
+  LogOut,
+  Building
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const canUpload = user?.permissions.includes('UPLOAD');
 
   const navItems = [
     {
@@ -27,24 +33,35 @@ export const Sidebar: React.FC = () => {
       phase: 'Phase 1',
     },
     {
-      name: 'Knowledge Base',
-      path: '/knowledge-base',
-      icon: <Database className="w-4 h-4" />,
-      status: 'MOCK',
+      name: 'RAG / Chat',
+      path: '/chat',
+      icon: <MessageSquare className="w-4 h-4" />,
+      status: 'LIVE',
       phase: 'Phase 2',
     },
     {
-      name: 'RAG / AI Chat',
-      path: '/chat',
-      icon: <MessageSquare className="w-4 h-4" />,
-      status: 'MOCK',
+      name: 'Documents',
+      path: '/documents',
+      icon: <FileText className="w-4 h-4" />,
+      status: 'LIVE',
       phase: 'Phase 2',
     },
+    ...(canUpload
+      ? [
+          {
+            name: 'Upload Document',
+            path: '/upload',
+            icon: <UploadCloud className="w-4 h-4" />,
+            status: 'LIVE',
+            phase: 'Phase 2',
+          },
+        ]
+      : []),
     {
       name: 'Access Control',
       path: '/access-control',
-      icon: <ShieldAlert className="w-4 h-4" />,
-      status: 'MOCK',
+      icon: <ShieldCheck className="w-4 h-4" />,
+      status: 'LIVE',
       phase: 'Phase 3',
     },
     {
@@ -64,8 +81,8 @@ export const Sidebar: React.FC = () => {
     {
       name: 'Audit Logs',
       path: '/audit-logs',
-      icon: <FileText className="w-4 h-4" />,
-      status: 'MOCK',
+      icon: <FileSpreadsheet className="w-4 h-4" />,
+      status: 'LIVE',
       phase: 'Phase 6',
     },
     {
@@ -80,71 +97,70 @@ export const Sidebar: React.FC = () => {
   return (
     <aside
       className={`${
-        collapsed ? 'w-20' : 'w-64'
-      } bg-[#090D16] border-r border-[#1F293D] min-h-screen transition-all duration-300 flex flex-col justify-between relative z-20 shrink-0 select-none`}
+        collapsed ? 'w-16' : 'w-64'
+      } bg-white border-r border-slate-200 min-h-screen transition-all duration-200 flex flex-col justify-between relative z-20 shrink-0 select-none`}
     >
       <div>
-        <div className="h-16 px-5 border-b border-[#1F293D] flex items-center justify-between">
+        {/* Logo / Header */}
+        <div className="h-16 px-4 border-b border-slate-200 flex items-center justify-between">
           {!collapsed && (
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 border border-indigo-400/40">
-                <Shield className="w-4 h-4 text-cyan-300" />
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-md bg-blue-700 flex items-center justify-center text-white shrink-0 font-bold text-sm shadow-xs">
+                <Building className="w-4 h-4" />
               </div>
-              <div>
-                <h1 className="text-sm font-bold text-slate-100 tracking-tight flex items-center gap-1.5">
-                  Aegis RAG
-                  <span className="text-[10px] bg-blue-500/20 text-blue-400 border border-blue-500/30 px-1.5 py-0.5 rounded font-mono font-normal">
-                    v1.0
-                  </span>
+              <div className="min-w-0">
+                <h1 className="text-xs font-bold text-slate-900 tracking-tight truncate flex items-center gap-1">
+                  Apex RAG-RBAC
                 </h1>
-                <p className="text-[10px] text-slate-400 font-mono">RBAC & Guardrails</p>
+                <p className="text-[10px] text-slate-500 truncate font-mono">Enterprise Governance</p>
               </div>
             </div>
           )}
 
           {collapsed && (
             <div className="w-full flex justify-center">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 border border-indigo-400/40">
-                <Shield className="w-4 h-4 text-cyan-300" />
+              <div className="w-8 h-8 rounded-md bg-blue-700 flex items-center justify-center text-white shrink-0 shadow-xs">
+                <Building className="w-4 h-4" />
               </div>
             </div>
           )}
 
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-[#111726] transition-colors border border-transparent hover:border-[#1F293D]"
+            className="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors border border-transparent"
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
         </div>
 
-        <nav className="p-3 space-y-1">
+        {/* Navigation Items */}
+        <nav className="p-3 space-y-0.5">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all group ${
+                `flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-colors ${
                   isActive
-                    ? 'bg-gradient-to-r from-blue-600/20 to-indigo-600/20 text-blue-400 border border-blue-500/30 shadow-md'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-[#111726]'
+                    ? 'bg-blue-50 text-blue-700 font-semibold border-l-3 border-blue-700'
+                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`
               }
             >
-              <div className="flex items-center gap-3 min-w-0">
+              <div className="flex items-center gap-2.5 min-w-0">
                 <span className="shrink-0">{item.icon}</span>
                 {!collapsed && <span className="truncate">{item.name}</span>}
               </div>
 
               {!collapsed && (
-                <div className="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center shrink-0">
                   {item.status === 'LIVE' ? (
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono border border-emerald-500/20">
+                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 font-mono border border-slate-200">
                       LIVE
                     </span>
                   ) : (
-                    <span className="text-[10px] px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300 font-mono border border-purple-500/30">
+                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-50 text-purple-700 font-mono border border-purple-200">
                       MOCK
                     </span>
                   )}
@@ -155,16 +171,52 @@ export const Sidebar: React.FC = () => {
         </nav>
       </div>
 
-      {!collapsed && (
-        <div className="p-4 m-3 rounded-xl bg-[#111726] border border-[#1F293D]">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Current Status</span>
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+      {/* User Context & Logout */}
+      {!collapsed ? (
+        <div className="p-3 m-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Active Identity</span>
+            <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+              Active
+            </span>
           </div>
-          <p className="text-xs font-semibold text-slate-200">Phase 1 Complete</p>
-          <p className="text-[11px] text-slate-400 mt-1 leading-tight">
-            Auth & App Shell active. RAG & Guardrail engines pending Phase 2+.
-          </p>
+
+          <div>
+            <p className="text-xs font-bold text-slate-900 truncate">{user?.name || 'Authorized User'}</p>
+            <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
+              <span className="text-[10px] bg-blue-100 text-blue-800 font-semibold px-1.5 py-0.2 rounded">
+                {user?.role}
+              </span>
+              <span className="text-[10px] text-slate-600 font-medium">
+                {user?.department}
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-500 truncate mt-1">{user?.email}</p>
+          </div>
+
+          <button
+            onClick={() => {
+              logout();
+              navigate('/login');
+            }}
+            className="w-full flex items-center justify-center gap-1.5 pt-2 mt-2 border-t border-slate-200 text-xs text-red-600 hover:text-red-700 font-medium transition-colors"
+          >
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      ) : (
+        <div className="p-2 flex justify-center border-t border-slate-200">
+          <button
+            onClick={() => {
+              logout();
+              navigate('/login');
+            }}
+            className="p-2 rounded-md text-red-600 hover:bg-red-50 transition-colors"
+            title="Sign Out"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
       )}
     </aside>

@@ -4,129 +4,190 @@ import { Card } from '../../components/common/Card';
 import { Badge } from '../../components/common/Badge';
 import { Table } from '../../components/common/Table';
 import type { Column } from '../../components/common/Table';
-import { Button } from '../../components/common/Button';
-import { ShieldAlert, Key, Plus, Check, X } from 'lucide-react';
+import { ShieldCheck, Key } from 'lucide-react';
+import { DEMO_USERS } from '../../services/authService';
+import type { User } from '../../types/auth';
 
-interface MockRole {
-  id: string;
-  name: string;
-  usersCount: number;
-  retrievalScope: string;
-  guardrailBypass: boolean;
-  status: 'Active';
+interface RolePermissionMatrixRow {
+  role: string;
+  department: string;
+  view: boolean;
+  upload: boolean;
+  edit: 'Full' | 'Department' | 'None';
+  delete: boolean;
+  rag: boolean;
 }
 
 export const AccessControlPage: React.FC = () => {
-  const mockRoles: MockRole[] = [
-    { id: 'role-1', name: 'Enterprise Admin', usersCount: 4, retrievalScope: 'All Vector Collections & Tenant Vaults', guardrailBypass: false, status: 'Active' },
-    { id: 'role-2', name: 'Security Engineer', usersCount: 12, retrievalScope: 'Security, Infrastructure & IT Docs', guardrailBypass: false, status: 'Active' },
-    { id: 'role-3', name: 'Data Compliance Officer', usersCount: 6, retrievalScope: 'Legal, HIPAA, Financial Audits', guardrailBypass: false, status: 'Active' },
-    { id: 'role-4', name: 'Auditor (Read-Only)', usersCount: 18, retrievalScope: 'Public & General HR Collections', guardrailBypass: false, status: 'Active' },
+  const usersList: User[] = DEMO_USERS.map(({ passwordHash: _, ...u }) => u);
+
+  const permissionMatrix: RolePermissionMatrixRow[] = [
+    {
+      role: 'Finance Employee',
+      department: 'Finance',
+      view: true,
+      upload: true,
+      edit: 'None',
+      delete: false,
+      rag: true,
+    },
+    {
+      role: 'Manufacturing Employee',
+      department: 'Manufacturing',
+      view: true,
+      upload: true,
+      edit: 'None',
+      delete: false,
+      rag: true,
+    },
+    {
+      role: 'Department Manager',
+      department: 'Finance / Mfg',
+      view: true,
+      upload: true,
+      edit: 'Department',
+      delete: false,
+      rag: true,
+    },
+    {
+      role: 'CEO / Executive',
+      department: 'Executive (Company-wide)',
+      view: true,
+      upload: true,
+      edit: 'Full',
+      delete: true,
+      rag: true,
+    },
+    {
+      role: 'Enterprise Admin',
+      department: 'IT / Security',
+      view: true,
+      upload: true,
+      edit: 'Full',
+      delete: true,
+      rag: true,
+    },
   ];
 
-  const columns: Column<MockRole>[] = [
+  const userColumns: Column<User>[] = [
     {
       key: 'name',
-      header: 'Role Title',
-      render: (row) => (
-        <div className="font-semibold text-slate-200 flex items-center gap-2">
-          <Key className="w-3.5 h-3.5 text-blue-400" />
-          {row.name}
+      header: 'Employee Name',
+      render: (u) => (
+        <div>
+          <div className="font-semibold text-slate-900 text-xs">{u.name}</div>
+          <div className="text-[10px] text-slate-500">{u.email}</div>
         </div>
       ),
     },
     {
-      key: 'usersCount',
-      header: 'Assigned Users',
-      render: (row) => (
-        <span className="font-mono text-xs text-slate-300">{row.usersCount} users</span>
+      key: 'role',
+      header: 'Role',
+      render: (u) => <Badge variant="info" size="sm">{u.role}</Badge>,
+    },
+    {
+      key: 'department',
+      header: 'Department',
+      render: (u) => (
+        <span className="text-xs font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+          {u.department}
+        </span>
       ),
     },
     {
-      key: 'retrievalScope',
-      header: 'RAG Retrieval Scope Filter',
-      render: (row) => (
-        <span className="text-xs text-slate-400 font-mono">{row.retrievalScope}</span>
+      key: 'accessibleDepartments',
+      header: 'Clearance Scope',
+      render: (u) => (
+        <span className="text-xs font-mono text-blue-700">
+          {u.accessibleDepartments.join(', ')}
+        </span>
       ),
     },
     {
       key: 'status',
       header: 'Status',
-      render: () => <Badge variant="success" size="sm">Active Policy</Badge>,
+      render: () => <Badge variant="success" size="sm">Active</Badge>,
     },
   ];
 
   return (
     <div className="space-y-6">
       <StatusBanner
-        status="MOCK"
-        phase="Phase 3 Pending"
-        title="Role-Based Access Control (RBAC) & Authorization Matrix"
-        description="This page displays the proposed RBAC architecture layout. Authorization enforcement, secure vector metadata filtering, and user permission checks will be implemented in Phase 3."
+        status="IMPLEMENTED"
+        phase="Phase 1-3 Model"
+        title="Role-Based Access Control (RBAC) & Authorization Architecture"
+        description="Structured user identity and clearance model. Authorization controls which documents and departments can be accessed prior to retrieval."
       />
 
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <ShieldAlert className="w-5 h-5 text-indigo-400" />
-            Access Control & Policy Engine
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <ShieldCheck className="w-5 h-5 text-blue-700" />
+            Access Control & Policy Matrix
           </h2>
-          <p className="text-xs text-slate-400">
-            Define tenant roles, document clearance levels, and secure vector filtering policies.
+          <p className="text-xs text-slate-500">
+            Enforced policies governing document actions (VIEW, UPLOAD, EDIT, DELETE, RAG_ACCESS).
           </p>
         </div>
-        <Button variant="primary" leftIcon={<Plus className="w-4 h-4" />} disabled title="Phase 3 Pending">
-          Create Custom Role (Phase 3)
-        </Button>
       </div>
 
-      <Table
-        columns={columns}
-        data={mockRoles}
-        keyExtractor={(row) => row.id}
-      />
+      {/* Users Table */}
+      <Card title="Corporate Identities & Role Assignments">
+        <Table
+          columns={userColumns}
+          data={usersList}
+          keyExtractor={(u) => u.id}
+        />
+      </Card>
 
-      <Card title="Permissions Scopes Matrix (UI Blueprint)">
+      {/* Permissions Matrix */}
+      <Card title="Role Permissions Matrix">
         <div className="overflow-x-auto">
           <table className="w-full text-xs text-left border-collapse">
             <thead>
-              <tr className="border-b border-[#1F293D] text-slate-400 font-mono uppercase">
-                <th className="py-3 px-4">Permission Scope</th>
-                <th className="py-3 px-4 text-center">Enterprise Admin</th>
-                <th className="py-3 px-4 text-center">Security Eng</th>
-                <th className="py-3 px-4 text-center">Compliance Officer</th>
-                <th className="py-3 px-4 text-center">Auditor</th>
+              <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 font-semibold uppercase">
+                <th className="py-3 px-4">Role Title</th>
+                <th className="py-3 px-4">Home Department</th>
+                <th className="py-3 px-4 text-center">VIEW</th>
+                <th className="py-3 px-4 text-center">UPLOAD</th>
+                <th className="py-3 px-4 text-center">EDIT</th>
+                <th className="py-3 px-4 text-center">DELETE</th>
+                <th className="py-3 px-4 text-center">RAG_ACCESS</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#1F293D] text-slate-300">
-              <tr>
-                <td className="py-3 px-4 font-semibold">Document Ingestion & Chunking</td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-slate-600"><X className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-slate-600"><X className="w-4 h-4 mx-auto" /></td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold">Secured RAG Query Execution</td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold">AI Guardrails Configuration</td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-slate-600"><X className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-slate-600"><X className="w-4 h-4 mx-auto" /></td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 font-semibold">Audit Logs & Telemetry Export</td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-slate-600"><X className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-                <td className="py-3 px-4 text-center text-emerald-400"><Check className="w-4 h-4 mx-auto" /></td>
-              </tr>
+            <tbody className="divide-y divide-slate-200 text-slate-700">
+              {permissionMatrix.map((row, idx) => (
+                <tr key={idx} className="hover:bg-slate-50">
+                  <td className="py-3 px-4 font-semibold text-slate-900 flex items-center gap-1.5">
+                    <Key className="w-3.5 h-3.5 text-blue-700" />
+                    {row.role}
+                  </td>
+                  <td className="py-3 px-4 text-slate-600">{row.department}</td>
+                  <td className="py-3 px-4 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-3 px-4 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-3 px-4 text-center">
+                    {row.edit === 'Full' ? (
+                      <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold">
+                        Full
+                      </span>
+                    ) : row.edit === 'Department' ? (
+                      <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-semibold">
+                        Dept Only
+                      </span>
+                    ) : (
+                      <span className="text-slate-400 font-bold">✕</span>
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    {row.delete ? (
+                      <span className="text-emerald-600 font-bold">✓</span>
+                    ) : (
+                      <span className="text-slate-400 font-bold">✕</span>
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-center text-emerald-600 font-bold">✓</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

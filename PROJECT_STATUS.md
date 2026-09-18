@@ -1,99 +1,101 @@
-# Project Status: Enterprise RAG Platform with RBAC, Guardrails & Monitoring
+# Project Status: Secure Enterprise RAG Platform with RBAC, Guardrails & Monitoring
 
 ## 1. Project Objective
-Build a high-performance, enterprise-grade **AI Security & RAG Governance Platform** enabling organizations to deploy Retrieval-Augmented Generation (RAG) pipelines with strict Role-Based Access Control (RBAC), real-time Guardrails & Prompt Injection mitigation, and telemetry observability.
+Build a realistic, high-reliability enterprise knowledge management system demonstrating:
+> **User Identity → Authentication → Authorization (RBAC) → Pre-Retrieval Filter → RAG Retrieval → Answer Generation + Grounded Citations → Audit Ledger**
+
+The core security principle: **RBAC is strictly enforced BEFORE RAG retrieval**. Unauthorized documents are excluded at the retrieval boundary so the LLM never queries or leaks restricted departmental data.
 
 ---
 
-## 2. Current Status Summary
+## 2. Current Implementation Status Summary
 
 | Attribute | Status Details |
 | :--- | :--- |
-| **Current Phase** | **PHASE 1 — Foundation, Authentication & UI/UX Shell** |
-| **Phase 1 Goal** | Implement complete authentication system, responsive dark-themed design system, public landing page, authenticated dashboard shell, route guards, and explicit UI placeholders for future phases. |
-| **Authentication Backend** | Pluggable `AuthService` abstraction with seeded users, password strength validation, session state management (`localStorage` / `sessionStorage`), route guard redirects, and forgot/reset password workflows. |
-| **Build Status** | Fully compiling with zero errors. All routes active and guarded. |
+| **Current Phase** | **PHASE 2 — Initial Working RAG, Document Management & Pre-Retrieval RBAC** |
+| **Design Language** | **Classic, Clean, Realistic Enterprise UI/UX** (white/light-gray background `#f8fafc`, dark text `#0f172a`, subtle slate borders `#e2e8f0`, standard corporate cards and tables, solid blue `#1e40af` accent). Designed for academic and college mentor demonstration. |
+| **Authentication & RBAC** | Pre-seeded organizational accounts with email identity, roles (`Employee`, `Manager`, `CEO`, `Enterprise Admin`), home departments (`Finance`, `Manufacturing`, `HR`, `Executive`, `IT`), and fine-grained action permissions (`VIEW`, `UPLOAD`, `EDIT`, `DELETE`, `RAG_ACCESS`). |
+| **RAG Pipeline** | Pre-retrieval boundary filter, intent detection, factual chunk extraction, and grounded citations display. Cross-department queries produce permission denial notices and log audit violations. |
+| **Build Status** | Fully compiling with zero errors. All routes active and protected. |
 
 ---
 
-## 3. Detailed Feature Implementation Breakdown
+## 3. Pre-Seeded Demonstration Accounts
 
-### IMPLEMENTED (Features that actually work in the current application)
-- **Authentication Engine (`/src/services/authService.ts`)**:
-  - User Registration with password complexity meter & matching validation.
-  - Login with email validation, password visibility toggle, remember-me session persistence, error/loading feedback.
-  - Forgot Password request & Reset Password token simulation workflow.
-  - Session persistence (`localStorage` / `sessionStorage`), auto-logout on expiration, logout capability.
-- **Route Guards & Protection (`/src/components/guard/ProtectedRoute.tsx`)**:
-  - Protected route wrapper enforcing authentication state.
-  - Automatic redirect of unauthenticated users attempting to access dashboard pages to `/login` (saving intent URL).
-  - Automatic redirect of authenticated users attempting to access public auth pages (`/login`, `/register`) to `/dashboard`.
-- **Application Shell & Layouts (`/src/components/layout/`)**:
-  - Authenticated layout with top header bar, collapsible sidebar navigation, active route indicators, user profile dropdown, and mock notifications menu.
-  - Public layout with top branding navigation bar and footer.
-- **Enterprise Design System & Reusable UI Components (`/src/components/common/`)**:
-  - `Button` (Primary, Secondary, Outline, Danger, Ghost, Loading states, Icons)
-  - `Input` (Text, Password show/hide toggle, Error feedback, Left/right icons)
-  - `Card` (Header, Subtitle, Actions, Custom borders, Glassmorphism accents)
-  - `Badge` (Success, Warning, Danger, Info, Neutral, and explicit `MOCK` status tags)
-  - `Alert` (Dismissible success, error, warning, and info notification banners)
-  - `Modal` (Backdrop blur, key handlers, header, custom actions)
-  - `Table` (Custom column renderers, empty state, loading spinner)
-  - `StatusBanner` (Autoritative phase demarcation banner displayed on every route)
-- **Public Landing Page (`/src/pages/public/LandingPage.tsx`)**:
-  - High-impact hero section, platform value proposition, security compliance standards (SOC 2, ISO 27001, HIPAA, GDPR), and action CTAs.
-- **Executive Dashboard Shell (`/src/pages/protected/DashboardPage.tsx`)**:
-  - Interactive metric stats cards (Queries, Documents, Active Users, Violations, Guardrail Events, System Health).
-  - Recent activity timeline and sample security query log table.
-- **User Settings & Session Inspector (`/src/pages/protected/SettingsPage.tsx`)**:
-  - Real-time display of user profile details, tenant ownership, session token inspection, and sign-out controls.
+| Role | Name | Department | Email | Password | Permissions & Clearance Scope |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Finance Employee** | Rahul Sharma | Finance | `finance.employee@demo-company.com` | `Finance123!` | VIEW, UPLOAD, RAG_ACCESS • Scope: Finance docs only (Cannot view/retrieve Manufacturing) |
+| **Manufacturing Employee** | Amit Verma | Manufacturing | `manufacturing.employee@demo-company.com` | `Mfg123!` | VIEW, UPLOAD, RAG_ACCESS • Scope: Manufacturing docs only (Cannot view/retrieve Finance) |
+| **Department Manager** | Priya Patel | Finance | `finance.manager@demo-company.com` | `Manager123!` | VIEW, UPLOAD, EDIT, RAG_ACCESS • Scope: Finance department management & editing |
+| **CEO / Executive** | Vikram Malhotra | Executive | `ceo@demo-company.com` | `Ceo123!` | VIEW, UPLOAD, EDIT, DELETE, RAG_ACCESS • Scope: Company-wide cross-departmental clearance |
+| **Enterprise Admin** | Sarah Connor | IT | `admin@enterprise.ai` | `Admin123!` | All permissions • Scope: Enterprise-wide system administration |
+
+*Note: The Login screen includes 1-click preset account buttons so mentors and evaluators can instantly test role switching.*
 
 ---
 
-### MOCK / UI ONLY (Visual placeholders without real backend engine implementation)
-- **Knowledge Base Page (`/src/pages/protected/KnowledgeBasePage.tsx`)**:
-  - Sample document list table and upload document modal mockup (`[MOCK / UI ONLY - Phase 2 Pending]`).
-- **RAG / AI Chat Workspace (`/src/pages/protected/ChatPage.tsx`)**:
-  - Sample conversational UI, document citation pill mockups, and retrieval parameter sliders (`[MOCK / UI ONLY - Phase 2 Pending]`).
-- **Access Control Matrix (`/src/pages/protected/AccessControlPage.tsx`)**:
-  - Role management table and permissions scope grid mockup (`[MOCK / UI ONLY - Phase 3 Pending]`).
-- **AI Guardrails Engine (`/src/pages/protected/GuardrailsPage.tsx`)**:
-  - Prompt injection scanner toggles and PII redaction rule preview (`[MOCK / UI ONLY - Phase 4 Pending]`).
-- **Monitoring & Telemetry (`/src/pages/protected/MonitoringPage.tsx`)**:
-  - Latency breakdown, token cost, and vector query analytics graphics mockup (`[MOCK / UI ONLY - Phase 5 Pending]`).
-- **Audit Logs (`/src/pages/protected/AuditLogsPage.tsx`)**:
-  - Filterable security event log table mockup (`[MOCK / UI ONLY - Phase 6 Pending]`).
+## 4. Detailed Feature Breakdown
+
+### IMPLEMENTED & FULLY FUNCTIONAL
+
+1. **Role-Based Dynamic Dashboards (`/dashboard`)**:
+   - **Finance Employee**: Displays Finance document counts, user uploads, monthly queries, accessible reports, and Finance-specific quick query actions.
+   - **Manufacturing Employee**: Displays Manufacturing document counts, SOPs, plant safety manuals, and production metrics.
+   - **Department Manager**: Displays department documents, team size (18 members), monthly volume, and document edit controls.
+   - **CEO / Executive**: Displays organization-wide document archive (286 docs), 6 active departments, cross-department query volume, and active user counts.
+
+2. **Pre-Retrieval RBAC & Working RAG Assistant (`/chat`)**:
+   - User context banner displaying User Name, Role, Home Department, and Authorized Knowledge Clearance.
+   - Pre-retrieval filtering: Knowledge base is pruned to authorized departments **before** similarity search.
+   - Authorized queries retrieve exact factual text chunks and render sources with Document Name, Department, Section, and Snippet.
+   - Unauthorized cross-department queries (e.g. Finance employee asking for Manufacturing production reports) trigger immediate pre-retrieval blocking, returning an explicit RBAC denial notice without exposing data.
+   - 1-Click preset queries allow immediate verification of authorized vs. blocked scenarios.
+
+3. **Enterprise Document Management (`/documents`)**:
+   - Table displaying Document Name, Department, Uploaded By, Date, Type, Access Scope, and Permission-Aware Actions.
+   - **View Action**: Opens full document viewer modal displaying metadata, text segments, and chunking details.
+   - **Edit Action**: Only accessible to users with `EDIT` permission (e.g., Department Manager, CEO); allows updating metadata and content.
+   - **Delete Action**: Only accessible to users with `DELETE` permission (CEO, Admin).
+   - Search by title/category and filter by Department.
+
+4. **Document Ingestion Pipeline (`/upload`)**:
+   - Accessible only to roles with `UPLOAD` permission.
+   - Drag & drop or file selection, Document Title, Department selector, Category, Description, and Access Scope (Department Only, Company-Wide, Executive Only).
+   - Multi-stage upload simulation: Uploading (100%) → Parsing text & vector chunking → Binding RBAC tags → Document Ready for RAG.
+   - Ingested documents appear immediately in the document archive and can be queried in RAG.
+
+5. **Security Audit Trail Ledger (`/audit-logs`)**:
+   - Live reactive log recording all authentication events, document views, edits, uploads, and RAG queries.
+   - Explicit `Allowed` vs `Denied` statuses with timestamp, user email, role, target department, and security reasons.
+   - Filtering by status and search queries, plus CSV export capability.
+
+6. **Access Control Panel (`/access-control`)**:
+   - Corporate identities and role assignments table.
+   - Visual Role Permissions Matrix displaying VIEW, UPLOAD, EDIT, DELETE, and RAG_ACCESS permissions.
+
+7. **Authentication & Session Management (`/login`, `/register`, `/settings`)**:
+   - Validation, show/hide password, session persistence (`localStorage` / `sessionStorage`), route protection, and logout.
+   - User profile and cryptographic session inspection.
 
 ---
 
-### FUTURE (Pending implementation in subsequent roadmap phases)
-- **Phase 2 (RAG Engine)**: Document upload, file parsing, text chunking, embedding generation, vector database connection, retrieval, and LLM text synthesis.
-- **Phase 3 (RBAC Enforcement)**: Database roles, permission policies, secured vector query metadata filters, authorization middleware.
-- **Phase 4 (Guardrails Pipeline)**: Live prompt injection scanners, PII regex masking, toxicity safety models, output verification.
-- **Phase 5 (Monitoring Backend)**: OpenTelemetry collector, latency tracing hooks, token expenditure breakdown backend.
-- **Phase 6 (Audit & Production Hardening)**: Cryptographic audit log persistence, security audits, deployment infrastructure.
+### SIMULATED / ROADMAP PLACEHOLDERS (Clearly demarcated with `MOCK`)
+
+- **AI Guardrails Engine (`/guardrails`)**:
+  - UI control toggles for Prompt Injection Protection, Sensitive Data (PII/SSN/API Keys) Masking, Output Validation, and Unauthorized Request Frequency Detection (`[MOCK / UI BLUEPRINT - Phase 4 Pending]`).
+- **Monitoring & Telemetry (`/monitoring`)**:
+  - Practical system metrics (Total Queries, Average Latency 1.8s, Access Violations, Failed Requests, Documents Retrieved) and recent events table (`[MOCK / UI PREVIEW - Phase 5 Pending]`).
 
 ---
 
-## 4. Technology Stack & Architecture
+## 5. Technology Stack & Architecture
 
-- **Framework**: React 19 + TypeScript + Vite 8
-- **Styling**: Tailwind CSS v4 + Custom Dark Theme CSS tokens + Glassmorphism utilities
+- **Frontend**: React 19 + TypeScript + Vite 8
+- **Styling**: Tailwind CSS v4 + Classic Enterprise Light Theme tokens (`#f8fafc` / `#0f172a`)
 - **Icons**: Lucide React
 - **Routing**: React Router DOM v7
-- **State Management**: React Context (`AuthContext`) + Service Abstraction (`authService`)
-- **Persistence**: `localStorage` and `sessionStorage` fallback
-
----
-
-## 5. Architectural Rules & Compliance Guidelines
-
-1. **Do not rewrite working Phase 1 functionality unnecessarily.**
-2. **Do not remove existing UI components unless there is a strong architectural reason.**
-3. **Extend the existing architecture instead of creating parallel implementations.**
-4. Keep business logic (`authService.ts`) separate from UI components.
-5. Keep API/service logic separate from views.
-6. Keep authentication separate from authorization.
-7. Never assume authentication = RBAC.
-8. Never treat mock data as real backend data.
-9. Every placeholder feature MUST remain visually marked with `[MOCK / UI ONLY]` until its respective phase is explicitly requested.
+- **Services Architecture**:
+  - `authService.ts`: Authentication, user repository, session management
+  - `documentService.ts`: Document archive, RBAC permission verification (`canUserView`, `canUserEdit`, `canUserDelete`, `canUserUpload`)
+  - `ragService.ts`: Pre-retrieval RBAC filter, intent analysis, chunk retrieval, citation extraction
+  - `auditService.ts`: Real-time reactive security audit trail with export

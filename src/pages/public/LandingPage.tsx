@@ -1,185 +1,188 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/common/Button';
-import { Badge } from '../../components/common/Badge';
 import {
   Lock,
-  Activity,
   Database,
-  Sliders,
-  CheckCircle2,
   ArrowRight,
-  Sparkles,
-  ChevronRight,
   ShieldCheck,
-  FileCheck
+  Building2,
+  FileText,
+  UserCheck,
+  CheckCircle2,
+  AlertTriangle
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 flex flex-col bg-[#090D16] overflow-hidden">
+    <div className="flex-1 flex flex-col bg-slate-50">
       {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 px-6 md:px-12 max-w-7xl mx-auto w-full">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-blue-600/20 to-indigo-600/20 blur-[120px] rounded-full pointer-events-none -z-10" />
+      <section className="py-14 lg:py-18 px-6 md:px-12 max-w-5xl mx-auto w-full text-center space-y-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 border border-blue-200 text-xs text-blue-800 font-medium">
+          <ShieldCheck className="w-4 h-4 text-blue-700" />
+          <span>Academic Capstone & Enterprise RAG Demonstration</span>
+        </div>
 
-        <div className="text-center max-w-3xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#111726] border border-blue-500/30 text-xs text-blue-400 font-medium shadow-lg shadow-blue-500/10">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span>Next-Generation Enterprise RAG Governance</span>
-            <span className="text-slate-500">•</span>
-            <span className="text-slate-300 font-mono">Phase 1 Live</span>
-          </div>
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+          Secure Enterprise RAG Platform with Role-Based Access Control (RBAC)
+        </h1>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            Secure RAG Pipelines with <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">Zero Compromise</span>
-          </h1>
+        <p className="text-sm sm:text-base text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          A secure internal enterprise knowledge management system where different departmental employees query AI without cross-department data leakage. Pre-retrieval RBAC strictly enforces document boundaries before vector retrieval.
+        </p>
 
-          <p className="text-base sm:text-lg text-slate-400 leading-relaxed font-normal">
-            Unify Retrieval-Augmented Generation, Fine-Grained Role-Based Access Control, Real-Time AI Safety Guardrails, and Observability in one secure enterprise SaaS shell.
-          </p>
+        <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <Button
+            variant="primary"
+            size="md"
+            rightIcon={<ArrowRight className="w-4 h-4" />}
+            onClick={() => navigate('/login')}
+          >
+            Launch Live Demo (Choose Role)
+          </Button>
+          <Button
+            variant="outline"
+            size="md"
+            onClick={() => navigate('/register')}
+          >
+            Register Custom Account
+          </Button>
+        </div>
 
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              variant="primary"
-              size="lg"
-              rightIcon={<ArrowRight className="w-5 h-5" />}
-              onClick={() => navigate('/register')}
-              className="w-full sm:w-auto"
-            >
-              Start Free Demo Session
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => navigate('/login')}
-              className="w-full sm:w-auto"
-            >
-              Sign In to Platform
-            </Button>
-          </div>
-
-          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-left border-t border-[#1F293D]/80 mt-12">
-            <div className="p-4 rounded-xl bg-[#111726]/60 border border-[#1F293D]">
-              <div className="text-2xl font-bold text-white font-mono">100%</div>
-              <div className="text-xs text-slate-400 mt-0.5">Isolated Multi-Tenant Security</div>
-            </div>
-            <div className="p-4 rounded-xl bg-[#111726]/60 border border-[#1F293D]">
-              <div className="text-2xl font-bold text-cyan-400 font-mono">&lt; 15ms</div>
-              <div className="text-xs text-slate-400 mt-0.5">Guardrail Overhead</div>
-            </div>
-            <div className="p-4 rounded-xl bg-[#111726]/60 border border-[#1F293D]">
-              <div className="text-2xl font-bold text-indigo-400 font-mono">SOC 2</div>
-              <div className="text-xs text-slate-400 mt-0.5">Compliance Ready Standard</div>
-            </div>
-            <div className="p-4 rounded-xl bg-[#111726]/60 border border-[#1F293D]">
-              <div className="text-2xl font-bold text-emerald-400 font-mono">6-Phase</div>
-              <div className="text-xs text-slate-400 mt-0.5">Incremental Roadmap</div>
-            </div>
+        {/* Security Rule Highlight */}
+        <div className="mt-8 p-4 rounded-lg bg-amber-50/80 border border-amber-200 text-left max-w-3xl mx-auto flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+          <div className="text-xs text-amber-900 leading-relaxed">
+            <strong className="font-semibold block mb-0.5">Core Security Principle: Pre-Retrieval RBAC Enforcement</strong>
+            Access control is enforced <em>BEFORE</em> RAG retrieval. If a Finance employee asks about Manufacturing reports, unauthorized documents are filtered out at the boundary so the model never retrieves or exposes protected data.
           </div>
         </div>
       </section>
 
-      {/* Core Pillars */}
-      <section className="py-16 bg-[#060911] border-y border-[#1F293D] px-6 md:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">Enterprise AI Security Modules</h2>
-            <p className="text-sm text-slate-400 mt-2">
-              Architected for high-compliance healthcare, finance, and enterprise environments.
+      {/* Architecture Flow Diagram */}
+      <section className="py-10 bg-white border-y border-slate-200 px-6 md:px-12">
+        <div className="max-w-5xl mx-auto space-y-8">
+          <div className="text-center max-w-xl mx-auto">
+            <h2 className="text-lg font-bold text-slate-900">System Architecture & Knowledge Boundary</h2>
+            <p className="text-xs text-slate-500 mt-1">
+              End-to-end data flow demonstrating verified authorization at each pipeline step.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-6 rounded-2xl bg-[#111726] border border-[#1F293D] hover:border-blue-500/50 transition-all flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-4">
-                  <Database className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-semibold text-white">Contextual RAG Engine</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Hybrid dense & sparse vector retrieval with strict document provenance tracking and citation validation.
-                </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-xs">
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 text-center space-y-1.5">
+              <div className="w-7 h-7 rounded-md bg-blue-100 text-blue-700 flex items-center justify-center mx-auto">
+                <UserCheck className="w-4 h-4" />
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                <Badge variant="mock" size="sm">Phase 2 Target</Badge>
-                <ChevronRight className="w-4 h-4 text-slate-500" />
-              </div>
+              <h3 className="font-semibold text-slate-900">1. Identity</h3>
+              <p className="text-[11px] text-slate-500">Authenticated user email & token session</p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#111726] border border-[#1F293D] hover:border-indigo-500/50 transition-all flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-4">
-                  <Lock className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-semibold text-white">RBAC Authorization</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Document-level and vector chunk-level access control enforced dynamically at retrieval time.
-                </p>
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 text-center space-y-1.5">
+              <div className="w-7 h-7 rounded-md bg-indigo-100 text-indigo-700 flex items-center justify-center mx-auto">
+                <Lock className="w-4 h-4" />
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                <Badge variant="mock" size="sm">Phase 3 Target</Badge>
-                <ChevronRight className="w-4 h-4 text-slate-500" />
-              </div>
+              <h3 className="font-semibold text-slate-900">2. RBAC Policy</h3>
+              <p className="text-[11px] text-slate-500">Role + Department + Individual Perms</p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#111726] border border-[#1F293D] hover:border-cyan-500/50 transition-all flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mb-4">
-                  <Sliders className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-semibold text-white">AI Guardrails & PII</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  Real-time prompt injection detection, PII redaction, and toxicity filtering before LLM generation.
-                </p>
+            <div className="p-3.5 rounded-lg border border-blue-200 bg-blue-50/50 text-center space-y-1.5">
+              <div className="w-7 h-7 rounded-md bg-blue-700 text-white flex items-center justify-center mx-auto">
+                <ShieldCheck className="w-4 h-4" />
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                <Badge variant="mock" size="sm">Phase 4 Target</Badge>
-                <ChevronRight className="w-4 h-4 text-slate-500" />
-              </div>
+              <h3 className="font-semibold text-blue-900">3. Pre-Filter</h3>
+              <p className="text-[11px] text-blue-800">Knowledge boundary applied prior to search</p>
             </div>
 
-            <div className="p-6 rounded-2xl bg-[#111726] border border-[#1F293D] hover:border-emerald-500/50 transition-all flex flex-col justify-between">
-              <div>
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-4">
-                  <Activity className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-semibold text-white">Observability & Costs</h3>
-                <p className="text-xs text-slate-400 mt-2 leading-relaxed">
-                  End-to-end trace logging, token expenditure tracking, latency breakdown, and security audit logs.
-                </p>
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 text-center space-y-1.5">
+              <div className="w-7 h-7 rounded-md bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto">
+                <Database className="w-4 h-4" />
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-800/80 flex items-center justify-between">
-                <Badge variant="mock" size="sm">Phase 5 Target</Badge>
-                <ChevronRight className="w-4 h-4 text-slate-500" />
+              <h3 className="font-semibold text-slate-900">4. RAG Retrieval</h3>
+              <p className="text-[11px] text-slate-500">Fetch chunks from authorized docs only</p>
+            </div>
+
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 text-center space-y-1.5">
+              <div className="w-7 h-7 rounded-md bg-purple-100 text-purple-700 flex items-center justify-center mx-auto">
+                <FileText className="w-4 h-4" />
               </div>
+              <h3 className="font-semibold text-slate-900">5. Synthesis</h3>
+              <p className="text-[11px] text-slate-500">Answer generated with exact citations</p>
+            </div>
+
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 text-center space-y-1.5">
+              <div className="w-7 h-7 rounded-md bg-slate-200 text-slate-700 flex items-center justify-center mx-auto">
+                <Building2 className="w-4 h-4" />
+              </div>
+              <h3 className="font-semibold text-slate-900">6. Audit Trail</h3>
+              <p className="text-[11px] text-slate-500">Every query and access logged</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Compliance */}
-      <section className="py-12 px-6 md:px-12 max-w-7xl mx-auto w-full text-center">
-        <p className="text-xs font-semibold text-slate-400 uppercase tracking-widest mb-6">
-          Architected Against Global Enterprise Security Standards
-        </p>
-        <div className="flex flex-wrap items-center justify-center gap-6 md:gap-12 opacity-80">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#111726] border border-[#1F293D] text-xs text-slate-300">
-            <ShieldCheck className="w-4 h-4 text-blue-400" />
-            <span className="font-semibold">SOC 2 Type II</span>
+      {/* Demo Roles Grid */}
+      <section className="py-12 px-6 md:px-12 max-w-5xl mx-auto w-full space-y-6">
+        <div className="text-center max-w-xl mx-auto">
+          <h2 className="text-lg font-bold text-slate-900">Configured Demonstration Roles</h2>
+          <p className="text-xs text-slate-500 mt-1">
+            Test the system by signing in as different departmental employees.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div className="p-4 rounded-lg bg-white border border-slate-200 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-slate-900">Finance Employee</span>
+              <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 font-mono text-[10px]">Finance</span>
+            </div>
+            <p className="text-slate-500 text-[11px]">Rahul Sharma</p>
+            <ul className="space-y-1 text-[11px] text-slate-600 pt-1 border-t border-slate-100">
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> View Finance docs</li>
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> Ask Finance RAG</li>
+              <li className="flex items-center gap-1 text-red-600">✕ Blocked from Mfg docs</li>
+            </ul>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#111726] border border-[#1F293D] text-xs text-slate-300">
-            <FileCheck className="w-4 h-4 text-indigo-400" />
-            <span className="font-semibold">ISO / IEC 27001</span>
+
+          <div className="p-4 rounded-lg bg-white border border-slate-200 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-slate-900">Mfg Employee</span>
+              <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-800 font-mono text-[10px]">Manufacturing</span>
+            </div>
+            <p className="text-slate-500 text-[11px]">Amit Verma</p>
+            <ul className="space-y-1 text-[11px] text-slate-600 pt-1 border-t border-slate-100">
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> View Mfg reports & SOPs</li>
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> Ask Production RAG</li>
+              <li className="flex items-center gap-1 text-red-600">✕ Blocked from Finance docs</li>
+            </ul>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#111726] border border-[#1F293D] text-xs text-slate-300">
-            <Lock className="w-4 h-4 text-cyan-400" />
-            <span className="font-semibold">HIPAA Compliant Vault</span>
+
+          <div className="p-4 rounded-lg bg-white border border-slate-200 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-slate-900">Finance Manager</span>
+              <span className="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-mono text-[10px]">Manager</span>
+            </div>
+            <p className="text-slate-500 text-[11px]">Priya Patel</p>
+            <ul className="space-y-1 text-[11px] text-slate-600 pt-1 border-t border-slate-100">
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> View department docs</li>
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> Edit & upload docs</li>
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> Department-level analytics</li>
+            </ul>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#111726] border border-[#1F293D] text-xs text-slate-300">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span className="font-semibold">GDPR Data Sovereignty</span>
+
+          <div className="p-4 rounded-lg bg-white border border-slate-200 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-slate-900">CEO / Executive</span>
+              <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-mono text-[10px]">Executive</span>
+            </div>
+            <p className="text-slate-500 text-[11px]">Vikram Malhotra</p>
+            <ul className="space-y-1 text-[11px] text-slate-600 pt-1 border-t border-slate-100">
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> Company-wide view</li>
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> Cross-department RAG</li>
+              <li className="flex items-center gap-1"><CheckCircle2 className="w-3 h-3 text-emerald-600" /> Executive overview dashboard</li>
+            </ul>
           </div>
         </div>
       </section>

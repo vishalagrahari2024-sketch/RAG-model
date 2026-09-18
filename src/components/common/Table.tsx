@@ -20,37 +20,37 @@ export function Table<T>({
   columns,
   data,
   isLoading = false,
-  emptyText = 'No data available',
+  emptyText = 'No records found',
   keyExtractor,
 }: TableProps<T>) {
   return (
-    <div className="w-full overflow-x-auto rounded-xl border border-[#1F293D] bg-[#111726]">
+    <div className="w-full overflow-x-auto rounded-lg border border-slate-200 bg-white">
       <table className="w-full text-left border-collapse text-sm">
         <thead>
-          <tr className="border-b border-[#1F293D] bg-[#0D1322] text-xs font-semibold text-slate-400 uppercase tracking-wider">
+          <tr className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600 uppercase tracking-wider">
             {columns.map((col) => (
-              <th key={col.key} className={`px-5 py-3.5 ${col.className || ''}`}>
+              <th key={col.key} className={`px-4 py-3 ${col.className || ''}`}>
                 {col.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#1F293D] text-slate-300">
+        <tbody className="divide-y divide-slate-200 text-slate-700">
           {isLoading ? (
             <tr>
-              <td colSpan={columns.length} className="px-5 py-12 text-center">
-                <div className="flex flex-col items-center justify-center gap-2 text-slate-400">
-                  <Loader2 className="w-6 h-6 animate-spin text-blue-400" />
+              <td colSpan={columns.length} className="px-4 py-10 text-center">
+                <div className="flex flex-col items-center justify-center gap-2 text-slate-500">
+                  <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
                   <span className="text-xs">Loading records...</span>
                 </div>
               </td>
             </tr>
           ) : data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="px-5 py-12 text-center">
-                <div className="flex flex-col items-center justify-center gap-2 text-slate-500">
-                  <Inbox className="w-8 h-8 stroke-1" />
-                  <span className="text-xs font-medium">{emptyText}</span>
+              <td colSpan={columns.length} className="px-4 py-10 text-center">
+                <div className="flex flex-col items-center justify-center gap-2 text-slate-400">
+                  <Inbox className="w-7 h-7 stroke-1" />
+                  <span className="text-xs font-medium text-slate-500">{emptyText}</span>
                 </div>
               </td>
             </tr>
@@ -58,10 +58,10 @@ export function Table<T>({
             data.map((row) => (
               <tr
                 key={keyExtractor(row)}
-                className="hover:bg-[#161F33] transition-colors"
+                className="hover:bg-slate-50/80 transition-colors"
               >
                 {columns.map((col) => (
-                  <td key={col.key} className={`px-5 py-4 ${col.className || ''}`}>
+                  <td key={col.key} className={`px-4 py-3.5 ${col.className || ''}`}>
                     {col.render ? col.render(row) : (row as any)[col.key]}
                   </td>
                 ))}
