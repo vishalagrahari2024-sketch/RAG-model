@@ -190,7 +190,7 @@ export const DashboardPage: React.FC = () => {
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-500 uppercase">Queries This Month</span>
-              <MessageSquare className="w-4 h-4 text-indigo-600" />
+              <MessageSquare className="w-4 h-4 text-blue-600" />
             </div>
             <div className="text-2xl font-bold text-slate-900 font-mono mt-2">28</div>
             <p className="text-[11px] text-slate-500 mt-1">RAG questions asked</p>
@@ -231,7 +231,7 @@ export const DashboardPage: React.FC = () => {
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-500 uppercase">Queries This Month</span>
-              <MessageSquare className="w-4 h-4 text-indigo-600" />
+              <MessageSquare className="w-4 h-4 text-blue-600" />
             </div>
             <div className="text-2xl font-bold text-slate-900 font-mono mt-2">34</div>
             <p className="text-[11px] text-slate-500 mt-1">Production RAG lookups</p>
@@ -254,7 +254,7 @@ export const DashboardPage: React.FC = () => {
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-500 uppercase">Dept Documents</span>
-              <FileText className="w-4 h-4 text-purple-700" />
+              <FileText className="w-4 h-4 text-blue-700" />
             </div>
             <div className="text-2xl font-bold text-slate-900 font-mono mt-2">{accessibleDocs.length}</div>
             <p className="text-[11px] text-slate-500 mt-1">Under departmental management</p>
@@ -281,9 +281,9 @@ export const DashboardPage: React.FC = () => {
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-500 uppercase">Edit Permission</span>
-              <CheckCircle2 className="w-4 h-4 text-purple-700" />
+              <CheckCircle2 className="w-4 h-4 text-blue-700" />
             </div>
-            <div className="text-2xl font-bold text-purple-800 font-mono mt-2">Active</div>
+            <div className="text-2xl font-bold text-blue-800 font-mono mt-2">Active</div>
             <p className="text-[11px] text-slate-500 mt-1">Authorized to edit department docs</p>
           </Card>
         </div>
@@ -313,7 +313,7 @@ export const DashboardPage: React.FC = () => {
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold text-slate-500 uppercase">Queries This Month</span>
-              <MessageSquare className="w-4 h-4 text-indigo-600" />
+              <MessageSquare className="w-4 h-4 text-blue-600" />
             </div>
             <div className="text-2xl font-bold text-slate-900 font-mono mt-2">1,248</div>
             <p className="text-[11px] text-slate-500 mt-1">Enterprise-wide RAG queries</p>

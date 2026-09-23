@@ -6,7 +6,7 @@ import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
-import { Building2, Mail, Lock, User, Check, X } from 'lucide-react';
+import { Mail, Lock, User, Building2 } from 'lucide-react';
 import type { Department } from '../../types/auth';
 
 export const RegisterPage: React.FC = () => {
@@ -36,7 +36,7 @@ export const RegisterPage: React.FC = () => {
     if (!password) {
       errors.password = 'Password is required';
     } else if (passwordStrength.score < 2) {
-      errors.password = 'Password does not meet minimum complexity';
+      errors.password = 'Password does not meet the minimum security requirements.';
     }
 
     if (password !== confirmPassword) {
@@ -68,28 +68,19 @@ export const RegisterPage: React.FC = () => {
     }
   };
 
-  const getMeterColor = (score: number) => {
-    if (score <= 1) return 'bg-red-500';
-    if (score === 2) return 'bg-amber-500';
-    if (score === 3) return 'bg-blue-600';
-    return 'bg-emerald-600';
-  };
-
   return (
-    <div className="flex-1 flex items-center justify-center p-6 bg-slate-50">
+    <div className="flex-1 flex items-center justify-center p-6 bg-cream">
       <div className="w-full max-w-lg space-y-6 my-6">
         {/* Branding */}
-        <div className="text-center space-y-1">
-          <div className="inline-flex p-2.5 rounded-lg bg-blue-700 text-white shadow-xs mb-1">
-            <Building2 className="w-6 h-6" />
-          </div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Create Corporate Account</h2>
-          <p className="text-xs text-slate-500">
+        <div className="text-center space-y-2">
+          <p className="eyebrow text-[11px] text-blue-600">Apex RAG</p>
+          <h2 className="display-heading text-4xl text-[#121212]">Create your account</h2>
+          <p className="text-sm text-slate-500">
             Join your organization's role-based enterprise knowledge network.
           </p>
         </div>
 
-        <Card className="p-5 border-slate-200 shadow-xs">
+        <Card className="p-5 border-slate-200 shadow-sm rounded-2xl">
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <Alert
@@ -152,37 +143,6 @@ export const RegisterPage: React.FC = () => {
               error={fieldErrors.password}
             />
 
-            {/* Password Strength Indicator */}
-            {password.length > 0 && (
-              <div className="p-3 rounded-md bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-600">Password Complexity:</span>
-                  <span className="font-semibold text-slate-900">{passwordStrength.label}</span>
-                </div>
-                <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden flex gap-0.5">
-                  <div className={`h-full transition-all duration-300 ${getMeterColor(passwordStrength.score)}`} style={{ width: `${(passwordStrength.score / 4) * 100}%` }} />
-                </div>
-                <div className="grid grid-cols-2 gap-1 text-[11px] pt-1">
-                  <div className={`flex items-center gap-1.5 ${passwordStrength.hasMinLength ? 'text-emerald-700' : 'text-slate-400'}`}>
-                    {passwordStrength.hasMinLength ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3" />}
-                    <span>Min 8 characters</span>
-                  </div>
-                  <div className={`flex items-center gap-1.5 ${passwordStrength.hasUppercase ? 'text-emerald-700' : 'text-slate-400'}`}>
-                    {passwordStrength.hasUppercase ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3" />}
-                    <span>Uppercase letter</span>
-                  </div>
-                  <div className={`flex items-center gap-1.5 ${passwordStrength.hasNumber ? 'text-emerald-700' : 'text-slate-400'}`}>
-                    {passwordStrength.hasNumber ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3" />}
-                    <span>Number (0-9)</span>
-                  </div>
-                  <div className={`flex items-center gap-1.5 ${passwordStrength.hasSpecialChar ? 'text-emerald-700' : 'text-slate-400'}`}>
-                    {passwordStrength.hasSpecialChar ? <Check className="w-3 h-3 text-emerald-600" /> : <X className="w-3 h-3" />}
-                    <span>Special character</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
             <Input
               label="Confirm Password"
               isPassword
@@ -198,7 +158,7 @@ export const RegisterPage: React.FC = () => {
               variant="primary"
               size="md"
               isLoading={isLoading}
-              className="w-full mt-2"
+              className="pill-btn w-full mt-2 rounded-full bg-blue-700 hover:bg-blue-800 border-0"
             >
               Complete Registration
             </Button>

@@ -26,12 +26,12 @@ export const Badge: React.FC<BadgeProps> = ({
     danger: 'bg-red-50 text-red-700 border border-red-200',
     info: 'bg-blue-50 text-blue-700 border border-blue-200',
     neutral: 'bg-slate-100 text-slate-700 border border-slate-200',
-    mock: 'bg-purple-50 text-purple-700 border border-purple-200 font-mono text-[10px]',
+    mock: 'bg-slate-100 text-slate-600 border border-slate-300 font-mono text-[10px]',
   };
 
   return (
     <span
-      className={`inline-flex items-center gap-1 font-medium rounded-md ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+      className={`inline-flex items-center gap-1 font-semibold tracking-tight rounded-full ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
     >
       {icon}
       <span>{children}</span>

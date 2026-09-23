@@ -5,7 +5,7 @@ import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
-import { Building2, Mail, Lock, Check } from 'lucide-react';
+import { Mail, Lock, Check } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -88,15 +88,13 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center p-6 bg-slate-50">
+    <div className="flex-1 flex items-center justify-center p-6 bg-cream">
       <div className="w-full max-w-md space-y-6">
         {/* Top Branding */}
-        <div className="text-center space-y-1.5">
-          <div className="inline-flex p-2.5 rounded-lg bg-blue-700 text-white shadow-xs mb-1">
-            <Building2 className="w-6 h-6" />
-          </div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Apex Enterprise RAG Platform</h2>
-          <p className="text-xs text-slate-500">
+        <div className="text-center space-y-2">
+          <p className="eyebrow text-[11px] text-blue-600">Apex RAG</p>
+          <h2 className="display-heading text-4xl text-[#121212]">Sign in or register</h2>
+          <p className="text-sm text-slate-500">
             Sign in with your organizational role credentials to test RBAC and RAG.
           </p>
         </div>
@@ -134,7 +132,7 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Login Card */}
-        <Card className="p-5 border-slate-200 shadow-xs">
+        <Card className="p-5 border-slate-200 shadow-sm rounded-2xl">
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
               <Alert
@@ -188,7 +186,7 @@ export const LoginPage: React.FC = () => {
               variant="primary"
               size="md"
               isLoading={isLoading}
-              className="w-full mt-2"
+              className="pill-btn w-full mt-2 rounded-full bg-blue-700 hover:bg-blue-800 border-0"
             >
               Sign In to Platform
             </Button>

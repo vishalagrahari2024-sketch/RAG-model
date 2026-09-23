@@ -72,7 +72,7 @@ export const SettingsPage: React.FC = () => {
               </div>
               <div className="flex justify-between py-1.5 border-b border-slate-100">
                 <span className="text-slate-500 flex items-center gap-1.5">
-                  <Shield className="w-3.5 h-3.5 text-indigo-700" /> Account ID
+                  <Shield className="w-3.5 h-3.5 text-blue-700" /> Account ID
                 </span>
                 <span className="font-mono text-slate-800 text-[11px]">{user?.id}</span>
               </div>

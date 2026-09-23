@@ -182,7 +182,7 @@ export const KnowledgeBasePage: React.FC = () => {
             {canEdit && (
               <button
                 onClick={() => handleOpenEdit(doc)}
-                className="p-1 text-slate-500 hover:text-purple-700 hover:bg-slate-100 rounded transition-colors"
+                className="p-1 text-slate-500 hover:text-blue-700 hover:bg-slate-100 rounded transition-colors"
                 title="Edit Document"
               >
                 <Edit className="w-3.5 h-3.5" />

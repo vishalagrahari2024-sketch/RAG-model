@@ -13,7 +13,7 @@ The core security principle: **RBAC is strictly enforced BEFORE RAG retrieval**.
 | Attribute | Status Details |
 | :--- | :--- |
 | **Current Phase** | **PHASE 2 — Initial Working RAG, Document Management & Pre-Retrieval RBAC** |
-| **Design Language** | **Classic, Clean, Realistic Enterprise UI/UX** (white/light-gray background `#f8fafc`, dark text `#0f172a`, subtle slate borders `#e2e8f0`, standard corporate cards and tables, solid blue `#1e40af` accent). Designed for academic and college mentor demonstration. |
+| **Design Language** | **Nomadgroup.io-inspired system across the entire app** (public + protected + auth): display font **Archivo** (light 300, tight tracking) + body **DM Sans**, electric blue `#3636ff` accent (Tailwind `slate`/`blue` scales remapped in `@theme`), cream `#f4f3ee` / paper `#fafafa` surfaces, ink `#121212` headings and dark bands, highlight yellow `#f0e10d` accents, square inputs (`radius:0`) + pill CTA buttons, plus-sign dot textures, text-only "APEX RAG" wordmarks (no flag/thumbnail artwork), no password strength meter. |
 | **Authentication & RBAC** | Pre-seeded organizational accounts with email identity, roles (`Employee`, `Manager`, `CEO`, `Enterprise Admin`), home departments (`Finance`, `Manufacturing`, `HR`, `Executive`, `IT`), and fine-grained action permissions (`VIEW`, `UPLOAD`, `EDIT`, `DELETE`, `RAG_ACCESS`). |
 | **RAG Pipeline** | Pre-retrieval boundary filter, intent detection, factual chunk extraction, and grounded citations display. Cross-department queries produce permission denial notices and log audit violations. |
 | **Build Status** | Fully compiling with zero errors. All routes active and protected. |
@@ -91,8 +91,9 @@ The core security principle: **RBAC is strictly enforced BEFORE RAG retrieval**.
 ## 5. Technology Stack & Architecture
 
 - **Frontend**: React 19 + TypeScript + Vite 8
-- **Styling**: Tailwind CSS v4 + Classic Enterprise Light Theme tokens (`#f8fafc` / `#0f172a`)
-- **Icons**: Lucide React
+- **Styling**: Tailwind CSS v4 with global `@theme` palette remap (Nomad-style tokens: ink `#121212` / cream `#f4f3ee` / paper `#fafafa` / electric blue `#3636ff` / highlight `#f0e10d`) + marketing design system (`src/components/marketing/`: `Graphics.tsx`, `TopSections.tsx`, `MidSections.tsx`, `BottomSections.tsx`); fonts Archivo (display) + DM Sans (body)
+- **Typography**: `Inter` (body) + `Plus Jakarta Sans` (headings/display) via Google Fonts
+- **Icons**: Lucide React (brand/social glyphs are inline SVG)
 - **Routing**: React Router DOM v7
 - **Services Architecture**:
   - `authService.ts`: Authentication, user repository, session management

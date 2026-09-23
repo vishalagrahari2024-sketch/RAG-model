@@ -25,12 +25,12 @@ export const StatusBanner: React.FC<StatusBannerProps> = ({
       descColor: 'text-emerald-800',
     },
     MOCK: {
-      border: 'border-purple-200 bg-purple-50/70',
+      border: 'border-blue-200 bg-blue-50/70',
       badgeVariant: 'mock' as const,
       badgeText: 'SIMULATED / UI DEMO',
-      icon: <Layers className="w-4 h-4 text-purple-700" />,
-      titleColor: 'text-purple-950',
-      descColor: 'text-purple-800',
+      icon: <Layers className="w-4 h-4 text-blue-700" />,
+      titleColor: 'text-blue-950',
+      descColor: 'text-blue-800',
     },
     FUTURE: {
       border: 'border-amber-200 bg-amber-50/70',

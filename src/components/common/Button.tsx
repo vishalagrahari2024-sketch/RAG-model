@@ -21,19 +21,21 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
+  const baseStyles =
+    'inline-flex items-center justify-center font-semibold tracking-tight rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer';
 
   const sizeStyles = {
-    sm: 'px-3 py-1.5 text-xs gap-1.5',
-    md: 'px-4 py-2 text-sm gap-2',
-    lg: 'px-5 py-2.5 text-base gap-2.5',
+    sm: 'px-4 py-1.5 text-xs gap-1.5',
+    md: 'px-5 py-2.5 text-sm gap-2',
+    lg: 'px-7 py-3 text-sm gap-2.5',
   };
 
   const variantStyles = {
-    primary: 'bg-blue-700 hover:bg-blue-800 text-white shadow-xs border border-blue-800',
-    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300',
-    outline: 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-300',
-    danger: 'bg-red-600 hover:bg-red-700 text-white shadow-xs border border-red-700',
+    // Electric-blue pill — the Nomad primary CTA
+    primary: 'bg-blue-600 hover:bg-blue-700 text-white shadow-none',
+    secondary: 'bg-slate-900 hover:bg-slate-800 text-white shadow-none',
+    outline: 'bg-transparent hover:bg-slate-100 text-slate-900 border border-slate-300 hover:border-slate-900',
+    danger: 'bg-red-600 hover:bg-red-700 text-white shadow-none',
     ghost: 'bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900',
   };
 

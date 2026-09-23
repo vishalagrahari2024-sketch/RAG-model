@@ -24,10 +24,10 @@ export function Table<T>({
   keyExtractor,
 }: TableProps<T>) {
   return (
-    <div className="w-full overflow-x-auto rounded-lg border border-slate-200 bg-white">
+    <div className="w-full overflow-x-auto rounded-xl border border-slate-200 bg-white">
       <table className="w-full text-left border-collapse text-sm">
         <thead>
-          <tr className="border-b border-slate-200 bg-slate-50 text-xs font-semibold text-slate-600 uppercase tracking-wider">
+          <tr className="border-b border-slate-200 bg-cream text-[11px] font-semibold text-slate-600 uppercase tracking-[0.12em]">
             {columns.map((col) => (
               <th key={col.key} className={`px-4 py-3 ${col.className || ''}`}>
                 {col.header}

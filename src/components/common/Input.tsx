@@ -7,6 +7,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   helperText?: string;
   leftIcon?: React.ReactNode;
   isPassword?: boolean;
+  /** Hide the show/hide toggle (used on the sign-in screen) */
+  hideToggle?: boolean;
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -15,6 +17,7 @@ export const Input: React.FC<InputProps> = ({
   helperText,
   leftIcon,
   isPassword = false,
+  hideToggle = false,
   className = '',
   type = 'text',
   id,
@@ -24,11 +27,12 @@ export const Input: React.FC<InputProps> = ({
   const inputId = id || (label ? label.toLowerCase().replace(/\s+/g, '-') : undefined);
 
   const finalType = isPassword ? (showPassword ? 'text' : 'password') : type;
+  const withToggle = isPassword && !hideToggle;
 
   return (
     <div className="w-full flex flex-col gap-1.5">
       {label && (
-        <label htmlFor={inputId} className="text-xs font-semibold text-slate-700">
+        <label htmlFor={inputId} className="text-xs font-semibold tracking-tight text-slate-700">
           {label}
         </label>
       )}
@@ -41,16 +45,18 @@ export const Input: React.FC<InputProps> = ({
         <input
           id={inputId}
           type={finalType}
-          className={`w-full bg-white border rounded-md px-3.5 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600 transition-all ${
+          className={`w-full bg-white border rounded-none px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/25 focus:border-blue-600 transition-all ${
             leftIcon ? 'pl-10' : ''
-          } ${isPassword ? 'pr-10' : ''} ${
+          } ${
+            withToggle ? 'pr-10' : ''
+          } ${
             error
               ? 'border-red-400 focus:border-red-500 focus:ring-red-500/20'
               : 'border-slate-300'
           } ${className}`}
           {...props}
         />
-        {isPassword && (
+        {withToggle && (
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}

@@ -54,11 +54,11 @@ export const Modal: React.FC<ModalProps> = ({
 
       {/* Dialog */}
       <div
-        className={`relative w-full ${widthClasses[maxWidth]} bg-white border border-slate-200 rounded-lg shadow-xl overflow-hidden z-10`}
+        className={`relative w-full ${widthClasses[maxWidth]} bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden z-10`}
       >
-        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-white">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 bg-cream">
           <div>
-            <h3 className="text-base font-semibold text-slate-900">{title}</h3>
+            <h3 className="text-base font-semibold tracking-tight text-slate-900">{title}</h3>
             {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
           </div>
           <button

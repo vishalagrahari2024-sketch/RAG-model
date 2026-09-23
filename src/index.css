@@ -1,23 +1,177 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Nomad-Group-inspired design tokens.
+   Display: light grotesque (LT Museum -> Archivo)   Body/UI: DM Sans
+   Accent: electric blue #3636ff   Cream #f4f3ee   Off-white #fafafa  Ink #121212
+   Every utility class used across the app (slate / blue scales) is remapped
+   here, so the whole product — marketing pages and the enterprise app —
+   inherits one coherent palette.
+--------------------------------------------------------------------------- */
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Archivo", "DM Sans", ui-sans-serif, sans-serif;
+
+  /* Ink / neutral scale (replaces slate) */
+  --color-slate-50: #fafafa;
+  --color-slate-100: #f4f3ee;
+  --color-slate-200: #e6e5e1;
+  --color-slate-300: #d0d5d2;
+  --color-slate-400: #a3a3a0;
+  --color-slate-500: #767676;
+  --color-slate-600: #4b4b4b;
+  --color-slate-700: #393939;
+  --color-slate-800: #1f1f1f;
+  --color-slate-900: #121212;
+  --color-slate-950: #0a0a0a;
+
+  /* Electric blue scale (replaces blue) */
+  --color-blue-50: #eeeeff;
+  --color-blue-100: #e0e0ff;
+  --color-blue-200: #c7c7ff;
+  --color-blue-300: #a5a5ff;
+  --color-blue-400: #8080ff;
+  --color-blue-500: #4d4dff;
+  --color-blue-600: #3636ff;
+  --color-blue-700: #2b2be0;
+  --color-blue-800: #2222b4;
+  --color-blue-900: #1b1b8c;
+  --color-blue-950: #121264;
+
+  /* Named brand aliases */
+  --color-cream: #f4f3ee;
+  --color-paper: #fafafa;
+  --color-ink: #121212;
+  --color-accent: #3636ff;
+  --color-highlight: #f0e10d;
+}
+
 @layer base {
   :root {
-    --bg-main: #f8fafc;
+    --bg-main: #fafafa;
     --bg-card: #ffffff;
-    --border-color: #e2e8f0;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --primary-blue: #1e40af;
+    --border-color: #e6e5e1;
+    --text-main: #121212;
+    --text-muted: #4b4b4b;
+    --primary-blue: #3636ff;
+    --navy: #121212;
   }
 
   body {
-    background-color: #f8fafc;
-    color: #0f172a;
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #fafafa;
+    color: #121212;
+    font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
   }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Archivo", "DM Sans", ui-sans-serif, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+
+  ::selection {
+    background-color: #3636ff;
+    color: #ffffff;
+  }
+
+  /* Nomad keeps form fields square */
+  input,
+  select,
+  textarea {
+    border-radius: 0;
+  }
+}
+
+/* ---------- Marketing design language ---------- */
+
+.display-heading {
+  font-family: "Archivo", "DM Sans", ui-sans-serif, sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+}
+
+.display-heading strong,
+.display-heading em {
+  font-weight: 500;
+  font-style: normal;
+}
+
+.eyebrow {
+  font-family: "DM Sans", ui-sans-serif, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.pill-btn {
+  border-radius: 9999px;
+  font-family: "DM Sans", ui-sans-serif, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+.pill-btn:hover {
+  transform: translateY(-2px);
+}
+
+.card-lift {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -28px rgba(18, 18, 18, 0.35);
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 2px;
+  transition: background-size 0.28s ease;
+}
+.link-underline:hover {
+  background-size: 100% 2px;
+}
+
+/* Subtle neutral texture used on dark bands (replaces the star motif) */
+.star-pattern-dark {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.09' stroke-width='1.4'%3E%3Cpath d='M14 10v10M9 15h10'/%3E%3Cpath d='M58 46v12M52 52h12'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Subtle neutral texture used on light bands */
+.star-pattern-light {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='none' stroke='%23121212' stroke-opacity='0.07' stroke-width='1.4'%3E%3Cpath d='M14 10v10M9 15h10'/%3E%3Cpath d='M58 46v12M52 52h12'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Soft dot grid for illustration panels */
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.3) 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+@keyframes marquee-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee-x 32s linear infinite;
 }
 
 /* Practical clean scrollbars */
@@ -26,12 +180,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #f4f3ee;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #d0d5d2;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #a3a3a0;
 }

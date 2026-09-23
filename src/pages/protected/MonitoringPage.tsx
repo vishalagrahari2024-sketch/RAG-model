@@ -118,7 +118,7 @@ export const MonitoringPage: React.FC = () => {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <span className="text-xs font-semibold text-slate-500 uppercase">Docs Retrieved</span>
-            <FileText className="w-4 h-4 text-purple-700" />
+            <FileText className="w-4 h-4 text-blue-700" />
           </div>
           <div className="text-2xl font-bold text-slate-900 font-mono mt-2">48</div>
           <p className="text-[11px] text-slate-500 mt-1">Active verified sources</p>

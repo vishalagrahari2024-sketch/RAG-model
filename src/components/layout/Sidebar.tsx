@@ -13,8 +13,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  LogOut,
-  Building
+  LogOut
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -105,23 +104,20 @@ export const Sidebar: React.FC = () => {
         <div className="h-16 px-4 border-b border-slate-200 flex items-center justify-between">
           {!collapsed && (
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-8 h-8 rounded-md bg-blue-700 flex items-center justify-center text-white shrink-0 font-bold text-sm shadow-xs">
-                <Building className="w-4 h-4" />
-              </div>
               <div className="min-w-0">
-                <h1 className="text-xs font-bold text-slate-900 tracking-tight truncate flex items-center gap-1">
-                  Apex RAG-RBAC
+                <h1 className="text-[13px] font-semibold text-slate-900 tracking-tight truncate leading-tight">
+                  APEX <span className="text-blue-600">RAG</span>
                 </h1>
-                <p className="text-[10px] text-slate-500 truncate font-mono">Enterprise Governance</p>
+                <p className="text-[10px] text-slate-500 truncate tracking-[0.08em] uppercase">Enterprise Governance</p>
               </div>
             </div>
           )}
 
           {collapsed && (
             <div className="w-full flex justify-center">
-              <div className="w-8 h-8 rounded-md bg-blue-700 flex items-center justify-center text-white shrink-0 shadow-xs">
-                <Building className="w-4 h-4" />
-              </div>
+              <span className="text-sm font-semibold text-slate-900 tracking-tight">
+                A<span className="text-blue-600">R</span>
+              </span>
             </div>
           )}
 
@@ -141,9 +137,9 @@ export const Sidebar: React.FC = () => {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-colors ${
+                `flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
                   isActive
-                    ? 'bg-blue-50 text-blue-700 font-semibold border-l-3 border-blue-700'
+                    ? 'bg-blue-50 text-blue-700 font-semibold border-l-[3px] border-blue-600'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`
               }
@@ -156,11 +152,11 @@ export const Sidebar: React.FC = () => {
               {!collapsed && (
                 <div className="flex items-center shrink-0">
                   {item.status === 'LIVE' ? (
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 font-mono border border-slate-200">
+                    <span className="text-[9px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-semibold tracking-wider border border-slate-200">
                       LIVE
                     </span>
                   ) : (
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-purple-50 text-purple-700 font-mono border border-purple-200">
+                    <span className="text-[9px] px-2 py-0.5 rounded-full bg-[#f0e10d]/40 text-[#121212] font-semibold tracking-wider border border-[#f0e10d]">
                       MOCK
                     </span>
                   )}
@@ -173,10 +169,10 @@ export const Sidebar: React.FC = () => {
 
       {/* User Context & Logout */}
       {!collapsed ? (
-        <div className="p-3 m-3 rounded-lg bg-slate-50 border border-slate-200 space-y-2">
+        <div className="p-3 m-3 rounded-xl bg-cream border border-slate-200 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider">Active Identity</span>
-            <span className="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+            <span className="text-[10px] font-semibold text-slate-500 uppercase tracking-[0.12em]">Active Identity</span>
+            <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
               Active
             </span>
           </div>
@@ -184,7 +180,7 @@ export const Sidebar: React.FC = () => {
           <div>
             <p className="text-xs font-bold text-slate-900 truncate">{user?.name || 'Authorized User'}</p>
             <div className="flex items-center gap-1.5 mt-0.5 flex-wrap">
-              <span className="text-[10px] bg-blue-100 text-blue-800 font-semibold px-1.5 py-0.2 rounded">
+              <span className="text-[10px] bg-blue-600 text-white font-semibold px-2 py-0.5 rounded-full">
                 {user?.role}
               </span>
               <span className="text-[10px] text-slate-600 font-medium">

@@ -189,7 +189,7 @@ class AuthService {
 
     const strength = this.validatePassword(params.password);
     if (strength.score < 2) {
-      throw new Error('Password is too weak. Please meet minimum password security requirements.');
+      throw new Error('Password does not meet the minimum security requirements.');
     }
 
     const dept = params.department || 'Finance';

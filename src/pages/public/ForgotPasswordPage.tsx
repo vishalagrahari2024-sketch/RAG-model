@@ -5,7 +5,7 @@ import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
-import { Building2, Mail, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Mail, ArrowLeft, CheckCircle2 } from 'lucide-react';
 
 export const ForgotPasswordPage: React.FC = () => {
   const { requestPasswordReset, isLoading, error, clearError } = useAuth();
@@ -32,19 +32,17 @@ export const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex items-center justify-center p-6 bg-slate-50">
+    <div className="flex-1 flex items-center justify-center p-6 bg-cream">
       <div className="w-full max-w-md space-y-6">
-        <div className="text-center space-y-1">
-          <div className="inline-flex p-2.5 rounded-lg bg-blue-700 text-white shadow-xs mb-1">
-            <Building2 className="w-6 h-6" />
-          </div>
-          <h2 className="text-xl font-bold text-slate-900 tracking-tight">Reset Password</h2>
-          <p className="text-xs text-slate-500">
+        <div className="text-center space-y-2">
+          <p className="eyebrow text-[11px] text-blue-600">Apex RAG</p>
+          <h2 className="display-heading text-4xl text-[#121212]">Reset password</h2>
+          <p className="text-sm text-slate-500">
             Enter your registered enterprise email address to dispatch password recovery instructions.
           </p>
         </div>
 
-        <Card className="p-5 border-slate-200 shadow-xs">
+        <Card className="p-5 border-slate-200 shadow-sm rounded-2xl">
           {successMessage ? (
             <div className="space-y-4 text-center py-3">
               <div className="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 mx-auto">
@@ -89,7 +87,7 @@ export const ForgotPasswordPage: React.FC = () => {
                 variant="primary"
                 size="md"
                 isLoading={isLoading}
-                className="w-full mt-2"
+                className="pill-btn w-full mt-2 rounded-full bg-blue-700 hover:bg-blue-800 border-0"
               >
                 Send Reset Link
               </Button>
