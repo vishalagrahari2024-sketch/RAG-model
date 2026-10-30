@@ -7,8 +7,7 @@ import { Input } from '../../components/common/Input';
 import { Alert } from '../../components/common/Alert';
 import {
   UploadCloud,
-  CheckCircle2,
-  ArrowRight
+  CheckCircle2
 } from 'lucide-react';
 import { documentService } from '../../services/documentService';
 import type { Department } from '../../types/auth';
@@ -107,57 +106,43 @@ export const UploadPage: React.FC = () => {
   }
 
   return (
-    <div className="space-y-6">
-      <StatusBanner
-        status="IMPLEMENTED"
-        phase="Phase 2 Live"
-        title="Ingest & Authorize New Document"
-        description="Attach Role-Based Access Control metadata and department clearance tags during ingestion. Documents are immediately vectorized for authorized RAG queries."
-      />
-
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <UploadCloud className="w-5 h-5 text-blue-700" />
-            Upload Enterprise Document
-          </h2>
-          <p className="text-xs text-slate-500">
-            Authorized for user <strong>{user?.name}</strong> • Allowed upload departments: {user?.accessibleDepartments.join(', ')}
-          </p>
-        </div>
+    <div className="space-y-4">
+      {/* Title */}
+      <div className="pb-2 border-b border-gray-200">
+        <h1 className="text-lg font-bold text-gray-900">Upload Document</h1>
+        <p className="text-xs text-gray-500">
+          Upload and tag documents for role-based knowledge retrieval
+        </p>
       </div>
 
       {error && <Alert type="error" message={error} onClose={() => setError(null)} />}
 
       {step === 'ready' ? (
-        <Card className="p-8 text-center max-w-xl mx-auto space-y-4">
-          <div className="w-12 h-12 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 mx-auto">
-            <CheckCircle2 className="w-6 h-6" />
+        <div className="p-6 text-center max-w-lg mx-auto bg-white border border-gray-200 rounded-md space-y-3">
+          <div className="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-300 flex items-center justify-center text-emerald-700 mx-auto">
+            <CheckCircle2 className="w-5 h-5" />
           </div>
 
           <div className="space-y-1">
-            <h3 className="text-base font-bold text-slate-900">Upload Successful & Document Ready for RAG</h3>
-            <p className="text-xs text-slate-600">
-              <strong>"{docName}"</strong> has been processed, chunked, and tagged for the <strong>{department}</strong> department.
+            <h2 className="text-base font-bold text-gray-900">Upload Complete</h2>
+            <p className="text-xs text-gray-600">
+              <strong>"{docName}"</strong> was added to the <strong>{department}</strong> knowledge base.
             </p>
           </div>
 
-          <div className="p-4 rounded-md bg-slate-50 border border-slate-200 text-left text-xs space-y-2">
+          <div className="p-3 rounded bg-gray-50 border border-gray-200 text-left text-xs space-y-1.5">
             <div className="flex items-center gap-2 text-emerald-700 font-medium">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>1. Upload completed (100%)</span>
+              <span>✓ File saved and registered</span>
             </div>
             <div className="flex items-center gap-2 text-emerald-700 font-medium">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>2. Document parsed & text chunked (Ready for embedding)</span>
+              <span>✓ Text chunking completed for RAG retrieval</span>
             </div>
             <div className="flex items-center gap-2 text-emerald-700 font-medium">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>3. RBAC filter attached ({department} clearance required)</span>
+              <span>✓ RBAC tags attached ({department} clearance required)</span>
             </div>
           </div>
 
-          <div className="pt-3 flex items-center justify-center gap-3">
+          <div className="pt-2 flex items-center justify-center gap-3">
             <Button
               variant="outline"
               size="sm"
@@ -169,20 +154,19 @@ export const UploadPage: React.FC = () => {
                 setDocContent('');
               }}
             >
-              Upload Another Document
+              Upload Another
             </Button>
             <Button
               variant="primary"
               size="sm"
-              rightIcon={<ArrowRight className="w-4 h-4" />}
               onClick={() => navigate('/documents')}
             >
-              View in Documents Archive
+              Go to Documents
             </Button>
           </div>
-        </Card>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
             <Card className="p-5">
               <form onSubmit={handleUpload} className="space-y-4">

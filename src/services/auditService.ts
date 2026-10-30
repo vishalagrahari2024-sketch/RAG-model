@@ -1,4 +1,5 @@
 import type { AuditLogEntry } from '../types/audit';
+import { apiClient } from './api';
 
 const AUDIT_STORAGE_KEY = 'rag_rbac_audit_logs';
 
@@ -106,6 +107,7 @@ const INITIAL_AUDIT_LOGS: AuditLogEntry[] = [
 class AuditService {
   constructor() {
     this.init();
+    this.syncFromBackend();
   }
 
   private init() {
@@ -113,6 +115,19 @@ class AuditService {
     if (!existing) {
       localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(INITIAL_AUDIT_LOGS));
     }
+  }
+
+  public async syncFromBackend(): Promise<AuditLogEntry[]> {
+    try {
+      const logs = await apiClient.get<AuditLogEntry[]>('/audit-logs');
+      if (Array.isArray(logs) && logs.length > 0) {
+        localStorage.setItem(AUDIT_STORAGE_KEY, JSON.stringify(logs));
+        return logs;
+      }
+    } catch {
+      // Keep local logs
+    }
+    return this.getLogs();
   }
 
   public getLogs(): AuditLogEntry[] {
@@ -135,6 +150,11 @@ class AuditService {
       ipAddress: entry.ipAddress || '192.168.1.104'
     };
 
+    // Asynchronously log to MongoDB
+    apiClient.post('/audit-logs', newLog).catch(() => {
+      // Ignored if offline
+    });
+
     const logs = this.getLogs();
     logs.unshift(newLog);
     // Keep max 150 records in storage
@@ -150,3 +170,4 @@ class AuditService {
 }
 
 export const auditService = new AuditService();
+

@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowRight, ChevronDown, Menu, X, ShieldCheck } from 'lucide-react';
+=======
+import React from 'react';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
+>>>>>>> 107f6ad (final changes)
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../common/Button';
 
@@ -86,6 +91,7 @@ export const PublicLayout: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-paper text-slate-900 flex flex-col antialiased selection:bg-blue-600 selection:text-white">
       {/* Top announcement strip */}
       <div className="bg-[#121212] text-white text-[11px] sm:text-xs star-pattern-dark">
@@ -160,6 +166,39 @@ export const PublicLayout: React.FC = () => {
           {/* Actions */}
           <div className="flex items-center gap-2.5">
             {isAuthenticated ? (
+=======
+    <div className="min-h-screen bg-[#fafafa] text-gray-900 flex flex-col">
+      {/* Public Top Navbar */}
+      <header className="h-14 border-b border-gray-200 bg-white sticky top-0 z-50 px-5 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2">
+          <span className="font-bold text-sm text-gray-900">
+            Secure RAG with RBAC
+          </span>
+          <span className="text-xs text-gray-400">|</span>
+          <span className="text-xs text-gray-500 hidden sm:inline">
+            College Project
+          </span>
+        </Link>
+
+        {/* Action Controls */}
+        <div className="flex items-center gap-3 text-xs">
+          {isAuthenticated ? (
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => navigate('/dashboard')}
+            >
+              Dashboard
+            </Button>
+          ) : (
+            <>
+              <Link to="/" className="text-gray-600 hover:text-gray-900">
+                Overview
+              </Link>
+              <Link to="/login" className="text-gray-600 hover:text-gray-900">
+                Login
+              </Link>
+>>>>>>> 107f6ad (final changes)
               <Button
                 variant="primary"
                 size="sm"
@@ -234,6 +273,7 @@ export const PublicLayout: React.FC = () => {
       </main>
 
       {/* Footer */}
+<<<<<<< HEAD
       <footer className="relative bg-[#121212] text-white overflow-hidden">
         <div className="absolute inset-0 star-pattern-dark" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-blue-600 via-white to-red-500 opacity-80" />
@@ -321,6 +361,10 @@ export const PublicLayout: React.FC = () => {
             </div>
           </div>
         </div>
+=======
+      <footer className="border-t border-gray-200 bg-white py-4 px-5 text-center text-xs text-gray-500">
+        <p>College Project: Secure Retrieval-Augmented Generation with Role-Based Access Control</p>
+>>>>>>> 107f6ad (final changes)
       </footer>
     </div>
   );

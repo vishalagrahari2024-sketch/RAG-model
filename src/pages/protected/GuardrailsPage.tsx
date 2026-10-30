@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { StatusBanner } from '../../components/common/StatusBanner';
 import { Card } from '../../components/common/Card';
 import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
-import { Sliders, Save } from 'lucide-react';
 
 export const GuardrailsPage: React.FC = () => {
   const [promptInjection, setPromptInjection] = useState(true);
@@ -18,32 +16,25 @@ export const GuardrailsPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <StatusBanner
-        status="MOCK"
-        phase="Phase 4 Roadmap"
-        title="AI Safety Guardrails & Policy Configuration (UI Blueprint)"
-        description="Administrative settings for prompt injection mitigation, sensitive data redaction, and output safety. These controls represent the Phase 4 safety roadmap."
-      />
-
-      <div className="flex items-center justify-between">
+    <div className="space-y-4">
+      {/* Title */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-gray-200">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Sliders className="w-5 h-5 text-blue-700" />
-            AI Guardrails Administration
-          </h2>
-          <p className="text-xs text-slate-500">
-            Configure real-time safety checks executed around retrieval and model inference.
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-bold text-gray-900">AI Guardrails</h1>
+            <span className="text-xs text-gray-500 italic">(coming soon)</span>
+          </div>
+          <p className="text-xs text-gray-500">
+            Safety rules and policy toggles for prompt and response governance
           </p>
         </div>
 
         <Button
           variant="primary"
           size="sm"
-          leftIcon={<Save className="w-3.5 h-3.5" />}
           onClick={handleSave}
         >
-          {savedNotice ? 'Saved Successfully' : 'Save Policies'}
+          {savedNotice ? 'Saved' : 'Save Policies'}
         </Button>
       </div>
 

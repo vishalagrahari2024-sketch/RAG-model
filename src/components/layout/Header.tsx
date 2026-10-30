@@ -1,29 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Badge } from '../common/Badge';
-import {
-  Bell,
-  Search,
-  User as UserIcon,
-  LogOut,
-  ChevronDown,
-  Building2,
-  ShieldCheck
-} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const Header: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, login } = useAuth();
   const navigate = useNavigate();
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showNotifications, setShowNotifications] = useState(false);
 
-  const notifications = [
-    { id: 1, title: 'RBAC Enforcement', desc: `Clearance restricted to ${user?.accessibleDepartments.join(', ')} documents`, time: '10m ago' },
-    { id: 2, title: 'Security Audit Active', desc: 'Pre-retrieval verification active for all RAG sessions', time: '1h ago' },
-  ];
+  const handleRoleSwitch = async (email: string, pass: string) => {
+    try {
+      await login({ email, password: pass, rememberMe: true });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
+<<<<<<< HEAD
     <header className="h-16 border-b border-slate-200 bg-white/95 backdrop-blur sticky top-0 z-30 px-6 flex items-center justify-between">
       {/* Left section */}
       <div className="flex items-center gap-4">
@@ -39,10 +31,23 @@ export const Header: React.FC = () => {
           <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
           <span className="font-semibold text-[11px]">RBAC Active</span>
         </div>
+=======
+    <header className="h-14 border-b border-gray-200 bg-white sticky top-0 z-30 px-5 flex items-center justify-between">
+      {/* Left: Project Title */}
+      <div className="flex items-center gap-3">
+        <h1 className="text-sm font-bold text-gray-900 tracking-tight">
+          Secure RAG with RBAC
+        </h1>
+        <span className="text-xs text-gray-400">|</span>
+        <span className="text-xs text-gray-600 hidden sm:inline">
+          College Project
+        </span>
+>>>>>>> 107f6ad (final changes)
       </div>
 
-      {/* Right section */}
+      {/* Right: User Information & Role Switcher */}
       <div className="flex items-center gap-3">
+<<<<<<< HEAD
         {/* Tenant & Clearance Info */}
         <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs">
           <Building2 className="w-3.5 h-3.5 text-blue-600" />
@@ -50,21 +55,56 @@ export const Header: React.FC = () => {
           <span className="text-slate-300">|</span>
           <span className="text-slate-600">{user?.department}</span>
           <Badge variant="info" size="sm">{user?.role}</Badge>
+=======
+        {/* Quick Role Switcher for Evaluation */}
+        <div className="flex items-center gap-1.5 text-xs text-gray-600">
+          <span className="hidden md:inline text-gray-500">Switch Role:</span>
+          <select
+            value={user?.email || ''}
+            onChange={(e) => {
+              if (e.target.value === 'finance.employee@demo-company.com') {
+                handleRoleSwitch('finance.employee@demo-company.com', 'Finance123!');
+              } else if (e.target.value === 'manufacturing.employee@demo-company.com') {
+                handleRoleSwitch('manufacturing.employee@demo-company.com', 'Mfg123!');
+              } else if (e.target.value === 'finance.manager@demo-company.com') {
+                handleRoleSwitch('finance.manager@demo-company.com', 'Manager123!');
+              } else if (e.target.value === 'ceo@demo-company.com') {
+                handleRoleSwitch('ceo@demo-company.com', 'Ceo123!');
+              }
+            }}
+            className="bg-white border border-gray-300 rounded px-2 py-1 text-xs text-gray-800 focus:outline-none focus:border-blue-600 cursor-pointer"
+            title="Quick Role Switcher for Project Evaluation"
+          >
+            <option value="finance.employee@demo-company.com">Rahul (Finance Employee)</option>
+            <option value="manufacturing.employee@demo-company.com">Amit (Mfg Employee)</option>
+            <option value="finance.manager@demo-company.com">Priya (Finance Manager)</option>
+            <option value="ceo@demo-company.com">Vikram (CEO - All Access)</option>
+          </select>
+>>>>>>> 107f6ad (final changes)
         </div>
 
-        {/* Notifications */}
-        <div className="relative">
+        {/* User Profile Info */}
+        <div className="flex items-center gap-2 pl-2 border-l border-gray-200 text-xs">
+          <div className="hidden sm:block text-right">
+            <span className="font-semibold text-gray-900 block">{user?.name}</span>
+            <span className="text-gray-500 text-[11px] block">{user?.role} ({user?.department})</span>
+          </div>
+
           <button
             onClick={() => {
-              setShowNotifications(!showNotifications);
-              setShowUserMenu(false);
+              logout();
+              navigate('/login');
             }}
+<<<<<<< HEAD
             className="relative p-2 rounded-full text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors"
             title="Notifications"
+=======
+            className="px-2.5 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 text-gray-700 cursor-pointer transition-colors"
+>>>>>>> 107f6ad (final changes)
           >
-            <Bell className="w-4 h-4" />
-            <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+            Logout
           </button>
+<<<<<<< HEAD
 
           {showNotifications && (
             <div className="absolute right-0 mt-2 w-80 bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden z-50">
@@ -141,6 +181,8 @@ export const Header: React.FC = () => {
               </div>
             </div>
           )}
+=======
+>>>>>>> 107f6ad (final changes)
         </div>
       </div>
     </header>

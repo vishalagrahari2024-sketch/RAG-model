@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { StatusBanner } from '../../components/common/StatusBanner';
 import { Table } from '../../components/common/Table';
 import type { Column } from '../../components/common/Table';
 import { Badge } from '../../components/common/Badge';
 import { Button } from '../../components/common/Button';
-import { Card } from '../../components/common/Card';
-import { FileSpreadsheet, Download, Filter, RefreshCw } from 'lucide-react';
 import { auditService } from '../../services/auditService';
 import type { AuditLogEntry } from '../../types/audit';
 
@@ -112,22 +109,13 @@ export const AuditLogsPage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <StatusBanner
-        status="IMPLEMENTED"
-        phase="Phase 1 & 2 Live"
-        title="Security & Access Audit Trail"
-        description="Immutable record of all authentication sessions, document views, edits, uploads, and RAG knowledge retrievals. Unauthorized attempts are flagged and recorded."
-      />
-
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div className="space-y-4">
+      {/* Title & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-gray-200">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <FileSpreadsheet className="w-5 h-5 text-blue-700" />
-            Security Audit Trail Ledger
-          </h2>
-          <p className="text-xs text-slate-500">
-            Real-time audit log tracking every user action against access control boundaries.
+          <h1 className="text-lg font-bold text-gray-900">Audit Logs</h1>
+          <p className="text-xs text-gray-500">
+            Log of user actions, authorization checks, and access attempts
           </p>
         </div>
 
@@ -135,15 +123,13 @@ export const AuditLogsPage: React.FC = () => {
           <Button
             variant="outline"
             size="sm"
-            leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
             onClick={refreshLogs}
           >
-            Refresh Logs
+            Refresh
           </Button>
           <Button
             variant="primary"
             size="sm"
-            leftIcon={<Download className="w-3.5 h-3.5" />}
             onClick={exportCSV}
           >
             Export CSV
@@ -151,36 +137,34 @@ export const AuditLogsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Filter Card */}
-      <Card className="p-3.5">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="relative w-full sm:w-80">
-            <input
-              type="text"
-              placeholder="Search by user, action, or resource..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-md px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
-            />
-          </div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <Filter className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-300 rounded-md px-2.5 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-blue-600"
-            >
-              <option value="ALL">All Outcomes</option>
-              <option value="Allowed">Allowed Only</option>
-              <option value="Denied">Denied (RBAC Blocks) Only</option>
-            </select>
-            <Badge variant="neutral" size="sm">
-              {filteredLogs.length} Records
-            </Badge>
-          </div>
+      {/* Filter and Search */}
+      <div className="p-3 bg-white border border-gray-200 rounded-md flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="w-full sm:w-72">
+          <input
+            type="text"
+            placeholder="Search by user, action, or resource..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-white border border-gray-300 rounded px-2.5 py-1.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-600"
+          />
         </div>
-      </Card>
+
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <span className="text-xs text-gray-500">Status:</span>
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="bg-white border border-gray-300 rounded px-2 py-1 text-xs text-gray-800 focus:outline-none focus:border-blue-600 cursor-pointer"
+          >
+            <option value="ALL">All Outcomes</option>
+            <option value="Allowed">Allowed Only</option>
+            <option value="Denied">Denied (Blocked) Only</option>
+          </select>
+          <span className="text-xs text-gray-500">
+            ({filteredLogs.length} events)
+          </span>
+        </div>
+      </div>
 
       <Table
         columns={columns}

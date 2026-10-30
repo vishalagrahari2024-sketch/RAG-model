@@ -8,6 +8,7 @@ import type {
   PasswordStrength
 } from '../types/auth';
 import { auditService } from './auditService';
+import { apiClient } from './api';
 
 const USERS_STORAGE_KEY = 'rag_rbac_users_v2';
 const SESSION_STORAGE_KEY = 'rag_rbac_session';
@@ -131,58 +132,85 @@ class AuthService {
     };
   }
 
+  public async fetchUsers(): Promise<User[]> {
+    try {
+      const users = await apiClient.get<User[]>('/auth/users');
+      return users;
+    } catch (e) {
+      return this.getUsers().map(({ passwordHash: _, ...u }) => u);
+    }
+  }
+
   public async login(params: LoginParams): Promise<AuthSession> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
-
     const email = params.email.trim().toLowerCase();
-    const users = this.getUsers();
-    const user = users.find((u) => u.email.toLowerCase() === email);
 
-    if (!user) {
-      throw new Error('Invalid email or password. Please verify your credentials.');
+    // 1. Try MongoDB Backend API first
+    try {
+      const session = await apiClient.post<AuthSession>('/auth/login', {
+        email,
+        password: params.password,
+        rememberMe: params.rememberMe
+      });
+
+      const storage = params.rememberMe ? localStorage : sessionStorage;
+      storage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+
+      // Log successful login
+      auditService.logEvent({
+        userEmail: session.user.email,
+        userName: session.user.name,
+        userRole: session.user.role,
+        department: session.user.department,
+        action: 'LOGIN',
+        resource: 'Identity & Authentication Provider (MongoDB)',
+        status: 'Allowed',
+        reason: `Authenticated successfully via MongoDB as ${session.user.role} (${session.user.department})`
+      });
+
+      return session;
+    } catch (err: any) {
+      // If error is invalid credentials returned from API, throw error
+      if (err.message && (err.message.includes('Invalid') || err.message.includes('credentials'))) {
+        throw err;
+      }
+
+      // 2. Fallback to Local Storage if backend server is unreachable
+      console.warn('MongoDB API unreachable, checking local credentials fallback...');
+      const users = this.getUsers();
+      const user = users.find((u) => u.email.toLowerCase() === email);
+
+      if (!user || user.passwordHash !== params.password) {
+        throw new Error('Invalid email or password. Please verify your credentials.');
+      }
+
+      const { passwordHash: _, ...cleanUser } = user;
+      
+      const session: AuthSession = {
+        user: cleanUser,
+        token: `token_${cleanUser.role.toLowerCase()}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        expiresAt: new Date(Date.now() + (params.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000)).toISOString(),
+        rememberMe: params.rememberMe
+      };
+
+      const storage = params.rememberMe ? localStorage : sessionStorage;
+      storage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+
+      auditService.logEvent({
+        userEmail: cleanUser.email,
+        userName: cleanUser.name,
+        userRole: cleanUser.role,
+        department: cleanUser.department,
+        action: 'LOGIN',
+        resource: 'Identity & Authentication Provider (Local Fallback)',
+        status: 'Allowed',
+        reason: `Authenticated successfully as ${cleanUser.role} (${cleanUser.department})`
+      });
+
+      return session;
     }
-
-    if (user.passwordHash !== params.password) {
-      throw new Error('Invalid email or password. Please verify your credentials.');
-    }
-
-    const { passwordHash: _, ...cleanUser } = user;
-    
-    const session: AuthSession = {
-      user: cleanUser,
-      token: `token_${cleanUser.role.toLowerCase()}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-      expiresAt: new Date(Date.now() + (params.rememberMe ? 30 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000)).toISOString(),
-      rememberMe: params.rememberMe
-    };
-
-    const storage = params.rememberMe ? localStorage : sessionStorage;
-    storage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
-
-    // Log successful login
-    auditService.logEvent({
-      userEmail: cleanUser.email,
-      userName: cleanUser.name,
-      userRole: cleanUser.role,
-      department: cleanUser.department,
-      action: 'LOGIN',
-      resource: 'Identity & Authentication Provider',
-      status: 'Allowed',
-      reason: `Authenticated successfully as ${cleanUser.role} (${cleanUser.department})`
-    });
-
-    return session;
   }
 
   public async register(params: RegisterParams): Promise<AuthSession> {
-    await new Promise((resolve) => setTimeout(resolve, 600));
-
-    const email = params.email.trim().toLowerCase();
-    const users = this.getUsers();
-
-    if (users.some((u) => u.email.toLowerCase() === email)) {
-      throw new Error('An account with this email address already exists.');
-    }
-
     if (params.password !== params.confirmPassword) {
       throw new Error('Passwords do not match.');
     }
@@ -192,32 +220,57 @@ class AuthService {
       throw new Error('Password does not meet the minimum security requirements.');
     }
 
+    const email = params.email.trim().toLowerCase();
     const dept = params.department || 'Finance';
 
-    const newUserFull: User & { passwordHash: string } = {
-      id: `usr-${Date.now().toString(36)}`,
-      name: params.name.trim(),
-      email,
-      role: 'Employee',
-      department: dept,
-      tenant: params.tenantName ? params.tenantName.trim() : 'Apex Global Industries',
-      permissions: ['VIEW', 'UPLOAD', 'RAG_ACCESS'],
-      accessibleDepartments: [dept],
-      createdAt: new Date().toISOString(),
-      passwordHash: params.password
-    };
+    // 1. Try MongoDB Backend API first
+    try {
+      const session = await apiClient.post<AuthSession>('/auth/register', {
+        name: params.name.trim(),
+        email,
+        password: params.password,
+        department: dept,
+        tenantName: params.tenantName ? params.tenantName.trim() : 'Apex Global Industries'
+      });
 
-    this.saveUser(newUserFull);
+      const storage = localStorage;
+      storage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
+      return session;
+    } catch (err: any) {
+      if (err.message && err.message.includes('already exists')) {
+        throw err;
+      }
 
-    return this.login({
-      email: params.email,
-      password: params.password,
-      rememberMe: true
-    });
+      // 2. Fallback to Local Storage if backend server is offline
+      const users = this.getUsers();
+      if (users.some((u) => u.email.toLowerCase() === email)) {
+        throw new Error('An account with this email address already exists.');
+      }
+
+      const newUserFull: User & { passwordHash: string } = {
+        id: `usr-${Date.now().toString(36)}`,
+        name: params.name.trim(),
+        email,
+        role: 'Employee',
+        department: dept,
+        tenant: params.tenantName ? params.tenantName.trim() : 'Apex Global Industries',
+        permissions: ['VIEW', 'UPLOAD', 'RAG_ACCESS'],
+        accessibleDepartments: [dept],
+        createdAt: new Date().toISOString(),
+        passwordHash: params.password
+      };
+
+      this.saveUser(newUserFull);
+
+      return this.login({
+        email: params.email,
+        password: params.password,
+        rememberMe: true
+      });
+    }
   }
 
   public async requestPasswordReset(params: ForgotPasswordParams): Promise<{ success: boolean; message: string }> {
-    await new Promise((resolve) => setTimeout(resolve, 400));
     const email = params.email.trim().toLowerCase();
     return {
       success: true,
@@ -226,27 +279,33 @@ class AuthService {
   }
 
   public async resetPassword(params: ResetPasswordParams): Promise<{ success: boolean; message: string }> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     if (params.newPassword !== params.confirmPassword) {
       throw new Error('Passwords do not match.');
     }
 
     const email = params.email.trim().toLowerCase();
-    const users = this.getUsers();
-    const userIndex = users.findIndex((u) => u.email.toLowerCase() === email);
 
-    if (userIndex === -1) {
-      throw new Error('Invalid or expired password reset reference.');
+    try {
+      return await apiClient.post('/auth/reset-password', {
+        email,
+        newPassword: params.newPassword
+      });
+    } catch (e) {
+      const users = this.getUsers();
+      const userIndex = users.findIndex((u) => u.email.toLowerCase() === email);
+
+      if (userIndex === -1) {
+        throw new Error('Invalid or expired password reset reference.');
+      }
+
+      users[userIndex].passwordHash = params.newPassword;
+      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
+
+      return {
+        success: true,
+        message: 'Password successfully updated. You may now sign in with your new password.'
+      };
     }
-
-    users[userIndex].passwordHash = params.newPassword;
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-
-    return {
-      success: true,
-      message: 'Password successfully updated. You may now sign in with your new password.'
-    };
   }
 
   public getCurrentSession(): AuthSession | null {

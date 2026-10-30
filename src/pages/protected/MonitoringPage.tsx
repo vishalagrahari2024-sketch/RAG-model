@@ -1,10 +1,7 @@
 import React from 'react';
-import { StatusBanner } from '../../components/common/StatusBanner';
-import { Card } from '../../components/common/Card';
 import { Badge } from '../../components/common/Badge';
 import { Table } from '../../components/common/Table';
 import type { Column } from '../../components/common/Table';
-import { Activity, Clock, ShieldAlert, FileText, Cpu } from 'lucide-react';
 
 interface SystemEvent {
   id: string;
@@ -57,26 +54,50 @@ export const MonitoringPage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <StatusBanner
-        status="MOCK"
-        phase="Phase 5 Roadmap"
-        title="System Performance & Operational Monitoring (UI Preview)"
-        description="Practical metrics tracking retrieval volume, latency benchmarks, and RBAC security blocks. Live OpenTelemetry metrics collector pending Phase 5."
-      />
+    <div className="space-y-4">
+      {/* Title */}
+      <div className="pb-2 border-b border-gray-200">
+        <div className="flex items-center gap-2">
+          <h1 className="text-lg font-bold text-gray-900">Monitoring</h1>
+          <span className="text-xs text-gray-500 italic">(coming soon)</span>
+        </div>
+        <p className="text-xs text-gray-500">
+          Basic system metrics and access telemetry
+        </p>
+      </div>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Activity className="w-5 h-5 text-blue-700" />
-            System Monitoring & Telemetry
-          </h2>
-          <p className="text-xs text-slate-500">
-            Real-time health of knowledge retrieval engines, response latency, and access violations.
-          </p>
+      {/* Simple Stat Boxes */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-3 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Total Queries</span>
+          <span className="text-xl font-bold text-gray-900 font-mono block mt-1">
+            1,248
+          </span>
+        </div>
+
+        <div className="p-3 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Avg Response Time</span>
+          <span className="text-xl font-bold text-gray-900 font-mono block mt-1">
+            1.8s
+          </span>
+        </div>
+
+        <div className="p-3 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Access Blocks</span>
+          <span className="text-xl font-bold text-red-600 font-mono block mt-1">
+            12
+          </span>
+        </div>
+
+        <div className="p-3 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Failed Requests</span>
+          <span className="text-xl font-bold text-gray-900 font-mono block mt-1">
+            4
+          </span>
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* 5 Practical Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <Card className="p-4">
@@ -125,14 +146,19 @@ export const MonitoringPage: React.FC = () => {
         </Card>
       </div>
 
+=======
+>>>>>>> 107f6ad (final changes)
       {/* Events Table */}
-      <Card title="Recent System & Security Events">
+      <div className="space-y-2">
+        <h2 className="text-xs font-bold text-gray-800 uppercase tracking-wide">
+          Recent System Events
+        </h2>
         <Table
           columns={columns}
           data={systemEvents}
           keyExtractor={(row) => row.id}
         />
-      </Card>
+      </div>
     </div>
   );
 };

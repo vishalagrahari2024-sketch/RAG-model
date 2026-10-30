@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+<<<<<<< HEAD
 import { Mail, Lock, Check } from 'lucide-react';
+=======
+>>>>>>> 107f6ad (final changes)
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -88,6 +90,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="flex-1 flex items-center justify-center p-6 bg-cream">
       <div className="w-full max-w-md space-y-6">
         {/* Top Branding */}
@@ -96,17 +99,26 @@ export const LoginPage: React.FC = () => {
           <h2 className="display-heading text-4xl text-[#121212]">Sign in or register</h2>
           <p className="text-sm text-slate-500">
             Sign in with your organizational role credentials to test RBAC and RAG.
+=======
+    <div className="flex-1 flex items-center justify-center p-4 bg-[#fafafa]">
+      <div className="w-full max-w-sm space-y-4">
+        {/* Title */}
+        <div className="text-center space-y-1">
+          <h2 className="text-lg font-bold text-gray-900">Login</h2>
+          <p className="text-xs text-gray-500">
+            Secure RAG with Role-Based Access Control
+>>>>>>> 107f6ad (final changes)
           </p>
         </div>
 
-        {/* 1-Click Demo Accounts Selector */}
-        <div className="p-3.5 rounded-lg bg-white border border-slate-200 shadow-xs space-y-2">
+        {/* Demo Accounts for Mentor/Evaluator Quick Testing */}
+        <div className="p-3 rounded-md bg-white border border-gray-200 space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-slate-800">1-Click Demo Accounts</span>
-            <span className="text-[10px] text-slate-500 font-mono">Select to Test RBAC</span>
+            <span className="text-xs font-semibold text-gray-800">Quick Test Accounts:</span>
+            <span className="text-[11px] text-gray-500">Click to fill</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             {demoAccounts.map((acc) => {
               const isSelected = email === acc.email;
               return (
@@ -114,26 +126,29 @@ export const LoginPage: React.FC = () => {
                   key={acc.email}
                   type="button"
                   onClick={() => handleSelectDemo(acc)}
-                  className={`p-2 rounded text-left border text-xs transition-all ${
+                  className={`p-1.5 rounded text-left border text-xs transition-colors cursor-pointer ${
                     isSelected
-                      ? 'border-blue-700 bg-blue-50/70 text-blue-900 font-semibold'
-                      : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                      ? 'border-blue-600 bg-blue-50 text-blue-900 font-medium'
+                      : 'border-gray-200 hover:bg-gray-50 text-gray-700'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="truncate">{acc.label}</span>
-                    {isSelected && <Check className="w-3 h-3 text-blue-700 shrink-0" />}
-                  </div>
-                  <p className="text-[10px] text-slate-500 font-normal truncate mt-0.5">{acc.role}</p>
+                  <div className="font-medium truncate">{acc.label}</div>
+                  <div className="text-[10px] text-gray-500 truncate">{acc.role}</div>
                 </button>
               );
             })}
           </div>
         </div>
 
+<<<<<<< HEAD
         {/* Login Card */}
         <Card className="p-5 border-slate-200 shadow-sm rounded-2xl">
           <form onSubmit={handleSubmit} className="space-y-4">
+=======
+        {/* Login Form */}
+        <div className="p-4 bg-white border border-gray-200 rounded-md">
+          <form onSubmit={handleSubmit} className="space-y-3">
+>>>>>>> 107f6ad (final changes)
             {error && (
               <Alert
                 type="error"
@@ -143,39 +158,37 @@ export const LoginPage: React.FC = () => {
             )}
 
             <Input
-              label="Corporate Email Address"
+              label="Email"
               type="email"
               placeholder="user@demo-company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              leftIcon={<Mail className="w-4 h-4" />}
               error={fieldErrors.email}
             />
 
             <Input
               label="Password"
               isPassword
-              placeholder="••••••••••••"
+              placeholder="Enter password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              leftIcon={<Lock className="w-4 h-4" />}
               error={fieldErrors.password}
             />
 
-            <div className="flex items-center justify-between text-xs pt-0.5">
-              <label className="flex items-center gap-2 text-slate-600 cursor-pointer">
+            <div className="flex items-center justify-between text-xs pt-1">
+              <label className="flex items-center gap-1.5 text-gray-600 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-blue-600"
                 />
-                <span>Remember session</span>
+                <span>Remember me</span>
               </label>
 
               <Link
                 to="/forgot-password"
-                className="text-blue-700 hover:text-blue-800 font-medium"
+                className="text-blue-600 hover:underline"
               >
                 Forgot password?
               </Link>
@@ -188,21 +201,18 @@ export const LoginPage: React.FC = () => {
               isLoading={isLoading}
               className="pill-btn w-full mt-2 rounded-full bg-blue-700 hover:bg-blue-800 border-0"
             >
-              Sign In to Platform
+              Sign In
             </Button>
           </form>
-        </Card>
+        </div>
 
         {/* Footer info */}
-        <div className="text-center text-xs text-slate-500 space-y-1">
+        <div className="text-center text-xs text-gray-500">
           <p>
-            Don't have an enterprise account?{' '}
-            <Link to="/register" className="text-blue-700 font-semibold hover:underline">
-              Register new user
+            Don't have an account?{' '}
+            <Link to="/register" className="text-blue-600 hover:underline font-medium">
+              Register
             </Link>
-          </p>
-          <p className="text-[11px] text-slate-400">
-            RBAC enforced at retrieval boundary • Role & Department identity verified
           </p>
         </div>
       </div>

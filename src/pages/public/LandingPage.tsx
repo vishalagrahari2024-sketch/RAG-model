@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/common/Button';
+<<<<<<< HEAD
 import {
   Lock,
   Database,
@@ -14,6 +15,10 @@ import {
 import { HeroSection, ValueStrip, TrustBand } from '../../components/marketing/TopSections';
 import { ModulesSection, ProcessSection, TestimonialsSection, UseCasesSection } from '../../components/marketing/MidSections';
 import { InsightsSection, CtaBanner } from '../../components/marketing/BottomSections';
+=======
+
+
+>>>>>>> 107f6ad (final changes)
 
 /* --------------------------------------------------- Architecture flow */
 
@@ -112,6 +117,7 @@ const DemoRolesSection: React.FC = () => {
   const navigate = useNavigate();
 
   return (
+<<<<<<< HEAD
     <section className="bg-white px-5 py-16 md:px-10 lg:py-24">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
@@ -160,13 +166,53 @@ const DemoRolesSection: React.FC = () => {
             size="lg"
             className="pill-btn rounded-full bg-blue-700 hover:bg-blue-800 border-0 px-8"
             rightIcon={<ArrowRight className="h-4 w-4" />}
+=======
+    <div className="flex-1 flex flex-col bg-[#fafafa]">
+      {/* Hero Section */}
+      <section className="py-10 px-5 max-w-4xl mx-auto w-full text-center space-y-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+          Secure RAG with Role-Based Access Control
+        </h1>
+
+        <p className="text-xs sm:text-sm text-gray-600 max-w-xl mx-auto leading-relaxed">
+          A college project demonstrating how pre-retrieval authorization filters enterprise documents before vector search, ensuring users only retrieve information cleared for their role.
+        </p>
+
+        <div className="pt-2 flex flex-row items-center justify-center gap-3">
+          <Button
+            variant="primary"
+            size="md"
+>>>>>>> 107f6ad (final changes)
             onClick={() => navigate('/login')}
           >
-            Launch Live Demo (Choose Role)
+            Go to Demo
           </Button>
+<<<<<<< HEAD
         </div>
       </div>
     </section>
+=======
+          <Button
+            variant="secondary"
+            size="md"
+            onClick={() => navigate('/register')}
+          >
+            Register
+          </Button>
+        </div>
+
+        {/* Security Rule Highlight */}
+        <div className="mt-4 p-3.5 rounded-md bg-white border border-gray-200 text-left max-w-2xl mx-auto text-xs space-y-1">
+          <strong className="font-semibold text-gray-900 block">
+            Core Project Principle: Pre-Retrieval RBAC
+          </strong>
+          <p className="text-gray-600 leading-relaxed">
+            Access control is verified <em>before</em> document similarity search. If a Finance employee queries Manufacturing data, the system stops the query before retrieval, preventing data exposure to the LLM.
+          </p>
+        </div>
+      </section>
+    </div>
+>>>>>>> 107f6ad (final changes)
   );
 };
 

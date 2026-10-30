@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+<<<<<<< HEAD
 import { Mail, ArrowLeft, CheckCircle2 } from 'lucide-react';
+=======
+
+
+>>>>>>> 107f6ad (final changes)
 
 export const ForgotPasswordPage: React.FC = () => {
   const { requestPasswordReset, isLoading, error, clearError } = useAuth();
@@ -32,6 +36,7 @@ export const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="flex-1 flex items-center justify-center p-6 bg-cream">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
@@ -43,42 +48,50 @@ export const ForgotPasswordPage: React.FC = () => {
         </div>
 
         <Card className="p-5 border-slate-200 shadow-sm rounded-2xl">
-          {successMessage ? (
-            <div className="space-y-4 text-center py-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 mx-auto">
-                <CheckCircle2 className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900">Reset Request Dispatched</h3>
-              <p className="text-xs text-slate-600 leading-relaxed px-2">{successMessage}</p>
+=======
+    <div className="flex-1 flex items-center justify-center p-4 bg-[#fafafa]">
+      <div className="w-full max-w-sm space-y-4">
+        <div className="text-center space-y-1">
+          <h2 className="text-lg font-bold text-gray-900">Forgot Password</h2>
+          <p className="text-xs text-gray-500">
+            Enter your email address to reset your password
+          </p>
+        </div>
 
-              <div className="p-3 rounded-md bg-slate-50 border border-slate-200 text-left text-xs text-slate-600 space-y-1.5">
-                <span className="font-semibold text-slate-800">Development Simulator:</span>
-                <p>For testing without an external mailer, jump directly to the reset password form:</p>
+        <div className="p-4 bg-white border border-gray-200 rounded-md">
+>>>>>>> 107f6ad (final changes)
+          {successMessage ? (
+            <div className="space-y-3 text-center py-2">
+              <h3 className="text-sm font-semibold text-gray-900">Reset Link Sent</h3>
+              <p className="text-xs text-gray-600 leading-relaxed">{successMessage}</p>
+
+              <div className="p-2.5 rounded bg-gray-50 border border-gray-200 text-left text-xs text-gray-600 space-y-1">
+                <span className="font-semibold text-gray-800">Test Simulator:</span>
+                <p>Click below to open the reset form directly:</p>
                 <Link
                   to={`/reset-password?email=${encodeURIComponent(email)}&token=mock-reset-token-123`}
-                  className="inline-block px-2.5 py-1 rounded bg-blue-50 text-blue-700 font-mono text-[11px] border border-blue-200 hover:bg-blue-100 transition-colors"
+                  className="inline-block text-blue-600 hover:underline text-xs"
                 >
-                  Proceed to Reset Form (Token Simulator) →
+                  Go to Reset Form →
                 </Link>
               </div>
 
               <div className="pt-2">
-                <Link to="/login" className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-700 hover:underline">
-                  <ArrowLeft className="w-3.5 h-3.5" /> Back to Sign In
+                <Link to="/login" className="text-xs text-blue-600 hover:underline">
+                  Back to Login
                 </Link>
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3">
               {error && <Alert type="error" message={error} onClose={clearError} />}
 
               <Input
-                label="Enterprise Email Address"
+                label="Email"
                 type="email"
                 placeholder="name@demo-company.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                leftIcon={<Mail className="w-4 h-4" />}
                 error={fieldError}
               />
 
@@ -93,13 +106,13 @@ export const ForgotPasswordPage: React.FC = () => {
               </Button>
 
               <div className="text-center pt-2">
-                <Link to="/login" className="inline-flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-800 transition-colors">
-                  <ArrowLeft className="w-3.5 h-3.5" /> Remembered password? Sign In
+                <Link to="/login" className="text-xs text-gray-600 hover:underline">
+                  Back to Login
                 </Link>
               </div>
             </form>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

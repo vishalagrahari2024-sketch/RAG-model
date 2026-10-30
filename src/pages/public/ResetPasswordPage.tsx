@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { authService } from '../../services/authService';
-import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+<<<<<<< HEAD
 import { Lock, CheckCircle2, ArrowRight } from 'lucide-react';
+=======
+>>>>>>> 107f6ad (final changes)
 
 export const ResetPasswordPage: React.FC = () => {
   const navigate = useNavigate();
@@ -55,6 +57,7 @@ export const ResetPasswordPage: React.FC = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="flex-1 flex items-center justify-center p-6 bg-cream">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center space-y-2">
@@ -66,54 +69,65 @@ export const ResetPasswordPage: React.FC = () => {
         </div>
 
         <Card className="p-5 border-slate-200 shadow-sm rounded-2xl">
+=======
+    <div className="flex-1 flex items-center justify-center p-4 bg-[#fafafa]">
+      <div className="w-full max-w-sm space-y-4">
+        <div className="text-center space-y-1">
+          <h2 className="text-lg font-bold text-gray-900">Set New Password</h2>
+          <p className="text-xs text-gray-500">
+            Account: {email}
+          </p>
+        </div>
+
+        <div className="p-4 bg-white border border-gray-200 rounded-md">
+>>>>>>> 107f6ad (final changes)
           {success ? (
-            <div className="space-y-4 text-center py-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-100 border border-emerald-200 flex items-center justify-center text-emerald-700 mx-auto">
-                <CheckCircle2 className="w-5 h-5" />
-              </div>
-              <h3 className="text-sm font-semibold text-slate-900">Password Updated Successfully</h3>
-              <p className="text-xs text-slate-600">
-                Your credentials have been updated. You can now log into your dashboard with your new password.
+            <div className="space-y-3 text-center py-2">
+              <h3 className="text-sm font-semibold text-gray-900">Password Updated</h3>
+              <p className="text-xs text-gray-600">
+                You can now log in with your new password.
               </p>
               <Button
                 variant="primary"
                 size="md"
-                rightIcon={<ArrowRight className="w-4 h-4" />}
                 onClick={() => navigate('/login')}
-                className="w-full mt-3"
+                className="w-full mt-2"
               >
-                Proceed to Sign In
+                Go to Login
               </Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3">
               {error && <Alert type="error" message={error} onClose={clearError} />}
 
               <Input
-                label="Target Account Email"
+                label="Email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 error={fieldErrors.email}
               />
 
-              <Input
-                label="New Password"
-                isPassword
-                placeholder="••••••••••••"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                leftIcon={<Lock className="w-4 h-4" />}
-                error={fieldErrors.newPassword}
-              />
+              <div>
+                <Input
+                  label="New Password"
+                  isPassword
+                  placeholder="Enter new password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  error={fieldErrors.newPassword}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Password must contain at least 1 capital letter.
+                </p>
+              </div>
 
               <Input
                 label="Confirm New Password"
                 isPassword
-                placeholder="••••••••••••"
+                placeholder="Confirm new password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                leftIcon={<Lock className="w-4 h-4" />}
                 error={fieldErrors.confirmPassword}
               />
 
@@ -128,7 +142,7 @@ export const ResetPasswordPage: React.FC = () => {
               </Button>
             </form>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

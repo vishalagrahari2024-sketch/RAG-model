@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { StatusBanner } from '../../components/common/StatusBanner';
-import { Card } from '../../components/common/Card';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
 import { Table } from '../../components/common/Table';
@@ -11,12 +9,9 @@ import { Input } from '../../components/common/Input';
 import { Alert } from '../../components/common/Alert';
 import {
   FileText,
-  UploadCloud,
-  Search,
   Eye,
   Edit,
   Trash2,
-  Filter,
   MessageSquare
 } from 'lucide-react';
 import { documentService } from '../../services/documentService';
@@ -205,13 +200,26 @@ export const KnowledgeBasePage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <StatusBanner
-        status="IMPLEMENTED"
-        phase="Phase 2 Live"
-        title="Enterprise Document Management & Access Boundary"
-        description="Every document is tagged with Department and Access Scope metadata. Your current account only displays documents you are authorized to VIEW."
-      />
+    <div className="space-y-4">
+      {/* Title */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-gray-200">
+        <div>
+          <h1 className="text-lg font-bold text-gray-900">Documents</h1>
+          <p className="text-xs text-gray-500">
+            Authorized documents for {user?.name} ({user?.department})
+          </p>
+        </div>
+
+        {user?.permissions.includes('UPLOAD') && (
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => navigate('/upload')}
+          >
+            Upload Document
+          </Button>
+        )}
+      </div>
 
       {errorMessage && (
         <Alert type="error" message={errorMessage} onClose={() => setErrorMessage(null)} />
@@ -220,65 +228,38 @@ export const KnowledgeBasePage: React.FC = () => {
         <Alert type="success" message={successMessage} onClose={() => setSuccessMessage(null)} />
       )}
 
-      {/* Header & Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <FileText className="w-5 h-5 text-blue-700" />
-            Enterprise Document Archive
-          </h2>
-          <p className="text-xs text-slate-500">
-            Authorized documents currently cleared for user <strong>{user?.name}</strong> ({user?.department})
-          </p>
+      {/* Filter and Search Bar */}
+      <div className="p-3 bg-white border border-gray-200 rounded-md flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="w-full sm:w-72">
+          <input
+            type="text"
+            placeholder="Search documents..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-white border border-gray-300 rounded px-2.5 py-1.5 text-xs text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-600"
+          />
         </div>
 
-        {user?.permissions.includes('UPLOAD') && (
-          <Button
-            variant="primary"
-            size="md"
-            leftIcon={<UploadCloud className="w-4 h-4" />}
-            onClick={() => navigate('/upload')}
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <span className="text-xs text-gray-500">Department:</span>
+          <select
+            value={selectedDept}
+            onChange={(e) => setSelectedDept(e.target.value)}
+            className="bg-white border border-gray-300 rounded px-2 py-1 text-xs text-gray-800 focus:outline-none focus:border-blue-600 cursor-pointer"
           >
-            Upload New Document
-          </Button>
-        )}
-      </div>
-
-      {/* Search & Filter Bar */}
-      <Card className="p-3.5">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="relative w-full sm:w-80">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-            <input
-              type="text"
-              placeholder="Filter authorized documents by title or category..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-300 rounded-md pl-9 pr-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
-            />
-          </div>
-
-          <div className="flex items-center gap-2 w-full sm:w-auto">
-            <Filter className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-            <select
-              value={selectedDept}
-              onChange={(e) => setSelectedDept(e.target.value)}
-              className="bg-slate-50 border border-slate-300 rounded-md px-2.5 py-1.5 text-xs text-slate-700 focus:outline-none focus:border-blue-600"
-            >
-              <option value="ALL">All Authorized Departments</option>
-              {user?.accessibleDepartments.map((dept) => (
-                <option key={dept} value={dept}>
-                  {dept} Department
-                </option>
-              ))}
-              <option value="HR">Human Resources</option>
-            </select>
-            <Badge variant="neutral" size="sm">
-              {filteredDocs.length} Documents
-            </Badge>
-          </div>
+            <option value="ALL">All Authorized Departments</option>
+            {user?.accessibleDepartments.map((dept) => (
+              <option key={dept} value={dept}>
+                {dept} Department
+              </option>
+            ))}
+            <option value="HR">Human Resources</option>
+          </select>
+          <span className="text-xs text-gray-500">
+            ({filteredDocs.length} items)
+          </span>
         </div>
-      </Card>
+      </div>
 
       {/* Documents Table */}
       <Table

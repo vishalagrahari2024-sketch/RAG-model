@@ -4,13 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "start": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"node server.js\" \"vite\"",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"blue,green\" \"node server.js\" \"vite\"",
+    "server": "node server.js",
+    "client": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "concurrently": "^10.0.5",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.3",
+    "express": "^5.2.1",
     "lucide-react": "^1.37.0",
+    "mongoose": "^9.10.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-router-dom": "^7.18.3"

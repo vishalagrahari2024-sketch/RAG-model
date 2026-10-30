@@ -1,10 +1,7 @@
 import React from 'react';
-import { StatusBanner } from '../../components/common/StatusBanner';
-import { Card } from '../../components/common/Card';
 import { Badge } from '../../components/common/Badge';
 import { Table } from '../../components/common/Table';
 import type { Column } from '../../components/common/Table';
-import { ShieldCheck, Key } from 'lucide-react';
 import { DEMO_USERS } from '../../services/authService';
 import type { User } from '../../types/auth';
 
@@ -111,87 +108,77 @@ export const AccessControlPage: React.FC = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <StatusBanner
-        status="IMPLEMENTED"
-        phase="Phase 1-3 Model"
-        title="Role-Based Access Control (RBAC) & Authorization Architecture"
-        description="Structured user identity and clearance model. Authorization controls which documents and departments can be accessed prior to retrieval."
-      />
-
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <ShieldCheck className="w-5 h-5 text-blue-700" />
-            Access Control & Policy Matrix
-          </h2>
-          <p className="text-xs text-slate-500">
-            Enforced policies governing document actions (VIEW, UPLOAD, EDIT, DELETE, RAG_ACCESS).
-          </p>
-        </div>
+    <div className="space-y-4">
+      {/* Title */}
+      <div className="pb-2 border-b border-gray-200">
+        <h1 className="text-lg font-bold text-gray-900">Access Control</h1>
+        <p className="text-xs text-gray-500">
+          Role-based permissions and user clearance policies
+        </p>
       </div>
 
       {/* Users Table */}
-      <Card title="Corporate Identities & Role Assignments">
+      <div className="space-y-2">
+        <h2 className="text-xs font-bold text-gray-800 uppercase tracking-wide">
+          User Accounts & Clearance
+        </h2>
         <Table
           columns={userColumns}
           data={usersList}
           keyExtractor={(u) => u.id}
         />
-      </Card>
+      </div>
 
       {/* Permissions Matrix */}
-      <Card title="Role Permissions Matrix">
-        <div className="overflow-x-auto">
+      <div className="space-y-2">
+        <h2 className="text-xs font-bold text-gray-800 uppercase tracking-wide">
+          Role Permissions Matrix
+        </h2>
+        <div className="overflow-x-auto rounded-md border border-gray-200 bg-white">
           <table className="w-full text-xs text-left border-collapse">
             <thead>
-              <tr className="border-b border-slate-200 bg-slate-50 text-slate-600 font-semibold uppercase">
-                <th className="py-3 px-4">Role Title</th>
-                <th className="py-3 px-4">Home Department</th>
-                <th className="py-3 px-4 text-center">VIEW</th>
-                <th className="py-3 px-4 text-center">UPLOAD</th>
-                <th className="py-3 px-4 text-center">EDIT</th>
-                <th className="py-3 px-4 text-center">DELETE</th>
-                <th className="py-3 px-4 text-center">RAG_ACCESS</th>
+              <tr className="border-b border-gray-200 bg-gray-50 text-gray-700 font-semibold">
+                <th className="py-2.5 px-3.5">Role</th>
+                <th className="py-2.5 px-3.5">Department</th>
+                <th className="py-2.5 px-3.5 text-center">VIEW</th>
+                <th className="py-2.5 px-3.5 text-center">UPLOAD</th>
+                <th className="py-2.5 px-3.5 text-center">EDIT</th>
+                <th className="py-2.5 px-3.5 text-center">DELETE</th>
+                <th className="py-2.5 px-3.5 text-center">RAG_ACCESS</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-200 text-slate-700">
+            <tbody className="divide-y divide-gray-200 text-gray-800">
               {permissionMatrix.map((row, idx) => (
-                <tr key={idx} className="hover:bg-slate-50">
-                  <td className="py-3 px-4 font-semibold text-slate-900 flex items-center gap-1.5">
-                    <Key className="w-3.5 h-3.5 text-blue-700" />
+                <tr key={idx} className="hover:bg-gray-50">
+                  <td className="py-2.5 px-3.5 font-medium text-gray-900">
                     {row.role}
                   </td>
-                  <td className="py-3 px-4 text-slate-600">{row.department}</td>
-                  <td className="py-3 px-4 text-center text-emerald-600 font-bold">✓</td>
-                  <td className="py-3 px-4 text-center text-emerald-600 font-bold">✓</td>
-                  <td className="py-3 px-4 text-center">
+                  <td className="py-2.5 px-3.5 text-gray-600">{row.department}</td>
+                  <td className="py-2.5 px-3.5 text-center text-emerald-700 font-bold">✓</td>
+                  <td className="py-2.5 px-3.5 text-center text-emerald-700 font-bold">✓</td>
+                  <td className="py-2.5 px-3.5 text-center">
                     {row.edit === 'Full' ? (
-                      <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-semibold">
-                        Full
-                      </span>
+                      <span className="text-emerald-700 font-bold">✓ (All)</span>
                     ) : row.edit === 'Department' ? (
-                      <span className="px-1.5 py-0.5 rounded bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-semibold">
-                        Dept Only
-                      </span>
+                      <span className="text-blue-700 font-medium">✓ (Dept)</span>
                     ) : (
-                      <span className="text-slate-400 font-bold">✕</span>
+                      <span className="text-gray-400 font-bold">✕</span>
                     )}
                   </td>
-                  <td className="py-3 px-4 text-center">
+                  <td className="py-2.5 px-3.5 text-center">
                     {row.delete ? (
-                      <span className="text-emerald-600 font-bold">✓</span>
+                      <span className="text-emerald-700 font-bold">✓</span>
                     ) : (
-                      <span className="text-slate-400 font-bold">✕</span>
+                      <span className="text-gray-400 font-bold">✕</span>
                     )}
                   </td>
-                  <td className="py-3 px-4 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3.5 text-center text-emerald-700 font-bold">✓</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

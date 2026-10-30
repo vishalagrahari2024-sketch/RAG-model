@@ -1,24 +1,11 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { StatusBanner } from '../../components/common/StatusBanner';
-import { Card } from '../../components/common/Card';
 import { Badge } from '../../components/common/Badge';
 import { Table } from '../../components/common/Table';
 import type { Column } from '../../components/common/Table';
 import { Button } from '../../components/common/Button';
 import { useNavigate } from 'react-router-dom';
-import {
-  FileText,
-  MessageSquare,
-  UploadCloud,
-  ShieldCheck,
-  AlertTriangle,
-  Building2,
-  Users,
-  CheckCircle2,
-  Lock,
-  ArrowRight
-} from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { documentService } from '../../services/documentService';
 import { auditService } from '../../services/auditService';
 import type { DocumentItem } from '../../types/document';
@@ -118,36 +105,25 @@ export const DashboardPage: React.FC = () => {
     },
   ];
 
-  return (
-    <div className="space-y-6">
-      <StatusBanner
-        status="IMPLEMENTED"
-        phase="Phase 1 & 2 Live"
-        title={`Authenticated Workspace — ${user?.role || 'Employee'} Dashboard`}
-        description={`Active identity: ${user?.name} (${user?.email}). Role-Based Access Control filters documents, queries, and permissions according to your ${user?.department} department clearance.`}
-      />
+  const allowedCount = allAuditLogs.filter((l) => l.status === 'Allowed').length;
+  const deniedCount = allAuditLogs.filter((l) => l.status === 'Denied').length;
 
-      {/* Header Context Card */}
-      <div className="bg-white border border-slate-200 p-5 rounded-lg shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+  return (
+    <div className="space-y-4">
+      {/* Page Title & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-gray-200">
         <div>
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <h1 className="text-lg font-bold text-slate-900">Welcome, {user?.name}</h1>
-            <Badge variant="info" size="sm">{user?.role}</Badge>
-            <span className="text-xs text-slate-500 font-mono bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
-              Dept: {user?.department}
-            </span>
-          </div>
-          <p className="text-xs text-slate-600 mt-1">
-            Organization: <strong className="text-slate-800">{user?.tenant}</strong> • Authorized Knowledge Clearance: <strong className="text-blue-700">{user?.accessibleDepartments.join(', ')}</strong>
+          <h1 className="text-lg font-bold text-gray-900">Dashboard</h1>
+          <p className="text-xs text-gray-500">
+            System overview and access summary
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2">
           {user?.permissions.includes('UPLOAD') && (
             <Button
               variant="outline"
               size="sm"
-              leftIcon={<UploadCloud className="w-3.5 h-3.5" />}
               onClick={() => navigate('/upload')}
             >
               Upload Document
@@ -156,14 +132,14 @@ export const DashboardPage: React.FC = () => {
           <Button
             variant="primary"
             size="sm"
-            leftIcon={<MessageSquare className="w-3.5 h-3.5" />}
             onClick={() => navigate('/chat')}
           >
-            Ask RAG Assistant
+            Chat with RAG
           </Button>
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* DYNAMIC ROLE-BASED METRICS */}
 
       {/* Case 1: Finance Employee */}
@@ -204,9 +180,33 @@ export const DashboardPage: React.FC = () => {
             <div className="text-2xl font-bold text-slate-900 font-mono mt-2">31</div>
             <p className="text-[11px] text-slate-500 mt-1">Finance + General HR docs</p>
           </Card>
+=======
+      {/* User Clearance / Profile Box */}
+      <div className="p-3.5 bg-white border border-gray-200 rounded-md">
+        <h2 className="text-xs font-bold text-gray-700 uppercase tracking-wide mb-2">
+          Current User Clearance
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+          <div>
+            <span className="text-gray-500 block">Name:</span>
+            <strong className="text-gray-900">{user?.name}</strong>
+          </div>
+          <div>
+            <span className="text-gray-500 block">Role:</span>
+            <strong className="text-blue-600">{user?.role}</strong>
+          </div>
+          <div>
+            <span className="text-gray-500 block">Department:</span>
+            <strong className="text-gray-900">{user?.department}</strong>
+          </div>
+          <div>
+            <span className="text-gray-500 block">Accessible Scope:</span>
+            <span className="text-gray-800">{user?.accessibleDepartments.join(', ')}</span>
+          </div>
+>>>>>>> 107f6ad (final changes)
         </div>
-      )}
 
+<<<<<<< HEAD
       {/* Case 2: Manufacturing Employee */}
       {user?.role === 'Employee' && user?.department === 'Manufacturing' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -245,9 +245,29 @@ export const DashboardPage: React.FC = () => {
             <div className="text-2xl font-bold text-slate-900 font-mono mt-2">49</div>
             <p className="text-[11px] text-slate-500 mt-1">Manufacturing & Safety clearance</p>
           </Card>
+=======
+        <div className="mt-2.5 pt-2 border-t border-gray-100 flex items-center gap-4 text-xs flex-wrap">
+          <span className="text-gray-500">Permissions:</span>
+          <span className="font-mono">
+            VIEW {user?.permissions.includes('VIEW') ? '✓' : '✕'}
+          </span>
+          <span className="font-mono">
+            UPLOAD {user?.permissions.includes('UPLOAD') ? '✓' : '✕'}
+          </span>
+          <span className="font-mono">
+            EDIT {user?.permissions.includes('EDIT') ? '✓' : '✕'}
+          </span>
+          <span className="font-mono">
+            DELETE {user?.permissions.includes('DELETE') ? '✓' : '✕'}
+          </span>
+          <span className="font-mono">
+            RAG_ACCESS {user?.permissions.includes('RAG_ACCESS') ? '✓' : '✕'}
+          </span>
+>>>>>>> 107f6ad (final changes)
         </div>
-      )}
+      </div>
 
+<<<<<<< HEAD
       {/* Case 3: Department Manager */}
       {user?.role === 'Manager' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -286,9 +306,18 @@ export const DashboardPage: React.FC = () => {
             <div className="text-2xl font-bold text-blue-800 font-mono mt-2">Active</div>
             <p className="text-[11px] text-slate-500 mt-1">Authorized to edit department docs</p>
           </Card>
+=======
+      {/* Simple Stat Boxes as requested in the prompt */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-3.5 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Accessible Documents</span>
+          <span className="text-xl font-bold text-gray-900 font-mono block mt-1">
+            {accessibleDocs.length}
+          </span>
+>>>>>>> 107f6ad (final changes)
         </div>
-      )}
 
+<<<<<<< HEAD
       {/* Case 4: CEO / Executive / Admin */}
       {(user?.role === 'CEO' || user?.role === 'Enterprise Admin') && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -327,28 +356,44 @@ export const DashboardPage: React.FC = () => {
             <div className="text-2xl font-bold text-slate-900 font-mono mt-2">74</div>
             <p className="text-[11px] text-slate-500 mt-1">Authenticated corporate users</p>
           </Card>
+=======
+        <div className="p-3.5 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Users</span>
+          <span className="text-xl font-bold text-gray-900 font-mono block mt-1">
+            5
+          </span>
+>>>>>>> 107f6ad (final changes)
         </div>
-      )}
 
-      {/* Accessible Documents & Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Authorized Documents for this role */}
-        <div className="lg:col-span-2 space-y-3">
+        <div className="p-3.5 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Allowed Queries</span>
+          <span className="text-xl font-bold text-emerald-700 font-mono block mt-1">
+            {allowedCount}
+          </span>
+        </div>
+
+        <div className="p-3.5 bg-white border border-gray-200 rounded-md">
+          <span className="text-xs text-gray-500 block">Denied Queries</span>
+          <span className="text-xl font-bold text-red-600 font-mono block mt-1">
+            {deniedCount}
+          </span>
+        </div>
+      </div>
+
+      {/* Accessible Documents Table & Recent Audit Log */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Accessible Documents Table */}
+        <div className="lg:col-span-2 space-y-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <FileText className="w-4 h-4 text-blue-700" />
-              <h2 className="text-sm font-bold text-slate-900">
-                Authorized Knowledge Base ({accessibleDocs.length} Documents)
-              </h2>
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              rightIcon={<ArrowRight className="w-3.5 h-3.5" />}
+            <h2 className="text-xs font-bold text-gray-800 uppercase tracking-wide">
+              Accessible Documents ({accessibleDocs.length})
+            </h2>
+            <button
               onClick={() => navigate('/documents')}
+              className="text-xs text-blue-600 hover:underline"
             >
-              Manage Documents
-            </Button>
+              View All Documents →
+            </button>
           </div>
 
           <Table
@@ -358,18 +403,17 @@ export const DashboardPage: React.FC = () => {
           />
         </div>
 
-        {/* Right Col: Recent Activity & RBAC Notice */}
-        <div className="space-y-4">
+        {/* Recent Audit Events */}
+        <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-emerald-700" />
-              <h2 className="text-sm font-bold text-slate-900">Recent Audit Events</h2>
-            </div>
+            <h2 className="text-xs font-bold text-gray-800 uppercase tracking-wide">
+              Recent Audit Logs
+            </h2>
             <button
               onClick={() => navigate('/audit-logs')}
-              className="text-xs text-blue-700 hover:underline"
+              className="text-xs text-blue-600 hover:underline"
             >
-              View All
+              View Ledger →
             </button>
           </div>
 
@@ -378,35 +422,6 @@ export const DashboardPage: React.FC = () => {
             data={userAuditLogs}
             keyExtractor={(row) => row.id}
           />
-
-          {/* Role Boundary Summary Card */}
-          <Card title="Current Access Clearance" className="text-xs space-y-2">
-            <div className="p-2.5 rounded bg-slate-50 border border-slate-200 space-y-1">
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-700">Role:</span>
-                <span className="font-bold text-slate-900">{user?.role}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-700">Home Department:</span>
-                <span className="text-slate-900 font-medium">{user?.department}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="font-semibold text-slate-700">Retrieval Clearance:</span>
-                <span className="text-blue-700 font-semibold">{user?.accessibleDepartments.join(', ')}</span>
-              </div>
-            </div>
-
-            <div className="pt-2 text-[11px] text-slate-500 space-y-1">
-              <p className="flex items-center gap-1.5">
-                <Lock className="w-3.5 h-3.5 text-slate-400" />
-                <span>Pre-Retrieval filter active on all search queries</span>
-              </p>
-              <p className="flex items-center gap-1.5">
-                <AlertTriangle className="w-3.5 h-3.5 text-slate-400" />
-                <span>Unauthorized cross-department attempts are logged</span>
-              </p>
-            </div>
-          </Card>
         </div>
       </div>
     </div>

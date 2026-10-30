@@ -50,17 +50,29 @@
   :root {
     --bg-main: #fafafa;
     --bg-card: #ffffff;
+<<<<<<< HEAD
     --border-color: #e6e5e1;
     --text-main: #121212;
     --text-muted: #4b4b4b;
     --primary-blue: #3636ff;
     --navy: #121212;
+=======
+    --border-color: #e5e7eb;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --primary-blue: #2563eb;
+>>>>>>> 107f6ad (final changes)
   }
 
   body {
     background-color: #fafafa;
+<<<<<<< HEAD
     color: #121212;
     font-family: "DM Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+=======
+    color: #111827;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+>>>>>>> 107f6ad (final changes)
     margin: 0;
     padding: 0;
     overflow-x: hidden;

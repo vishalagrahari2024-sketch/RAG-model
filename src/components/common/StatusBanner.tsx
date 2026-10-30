@@ -1,6 +1,4 @@
 import React from 'react';
-import { Badge } from './Badge';
-import { Layers, ShieldCheck, Sparkles } from 'lucide-react';
 
 interface StatusBannerProps {
   status: 'IMPLEMENTED' | 'MOCK' | 'FUTURE';
@@ -11,10 +9,10 @@ interface StatusBannerProps {
 
 export const StatusBanner: React.FC<StatusBannerProps> = ({
   status,
-  phase,
   title,
   description,
 }) => {
+<<<<<<< HEAD
   const configs = {
     IMPLEMENTED: {
       border: 'border-emerald-200 bg-emerald-50/70',
@@ -44,22 +42,18 @@ export const StatusBanner: React.FC<StatusBannerProps> = ({
 
   const config = configs[status];
 
+=======
+>>>>>>> 107f6ad (final changes)
   return (
-    <div className={`p-4 rounded-lg border ${config.border} flex flex-col md:flex-row md:items-center justify-between gap-3 text-sm shadow-xs mb-6`}>
-      <div className="flex items-start gap-3">
-        <div className="mt-0.5 p-1.5 rounded-md bg-white border border-slate-200 shrink-0">
-          {config.icon}
+    <div className="p-3.5 rounded-md border border-gray-200 bg-white flex items-start gap-3 text-sm mb-4">
+      <div className="flex-1">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h4 className="text-sm font-semibold text-gray-900">{title}</h4>
+          {status !== 'IMPLEMENTED' && (
+            <span className="text-xs text-gray-500 italic">(coming soon)</span>
+          )}
         </div>
-        <div>
-          <div className="flex items-center gap-2 flex-wrap">
-            <h4 className={`text-sm font-semibold ${config.titleColor}`}>{title}</h4>
-            <Badge variant={config.badgeVariant}>{config.badgeText}</Badge>
-            <span className="text-xs px-2 py-0.5 rounded bg-white text-slate-600 font-mono border border-slate-200">
-              {phase}
-            </span>
-          </div>
-          <p className={`text-xs mt-1 leading-relaxed ${config.descColor}`}>{description}</p>
-        </div>
+        <p className="text-xs mt-1 text-gray-600 leading-relaxed">{description}</p>
       </div>
     </div>
   );

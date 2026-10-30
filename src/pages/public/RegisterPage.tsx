@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { authService } from '../../services/authService';
-import { Card } from '../../components/common/Card';
 import { Input } from '../../components/common/Input';
 import { Button } from '../../components/common/Button';
 import { Alert } from '../../components/common/Alert';
+<<<<<<< HEAD
 import { Mail, Lock, User, Building2 } from 'lucide-react';
+=======
+>>>>>>> 107f6ad (final changes)
 import type { Department } from '../../types/auth';
 
 export const RegisterPage: React.FC = () => {
@@ -18,7 +20,7 @@ export const RegisterPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [department, setDepartment] = useState<Department>('Finance');
-  const [tenantName, setTenantName] = useState('Apex Global Industries');
+  const tenantName = 'Apex Global Industries';
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
   const passwordStrength = authService.validatePassword(password);
@@ -68,6 +70,7 @@ export const RegisterPage: React.FC = () => {
     }
   };
 
+<<<<<<< HEAD
   return (
     <div className="flex-1 flex items-center justify-center p-6 bg-cream">
       <div className="w-full max-w-lg space-y-6 my-6">
@@ -82,6 +85,23 @@ export const RegisterPage: React.FC = () => {
 
         <Card className="p-5 border-slate-200 shadow-sm rounded-2xl">
           <form onSubmit={handleSubmit} className="space-y-4">
+=======
+
+
+  return (
+    <div className="flex-1 flex items-center justify-center p-4 bg-[#fafafa]">
+      <div className="w-full max-w-sm space-y-4 my-4">
+        {/* Title */}
+        <div className="text-center space-y-1">
+          <h2 className="text-lg font-bold text-gray-900">Register</h2>
+          <p className="text-xs text-gray-500">
+            Create an account to test role permissions
+          </p>
+        </div>
+
+        <div className="p-4 bg-white border border-gray-200 rounded-md">
+          <form onSubmit={handleSubmit} className="space-y-3">
+>>>>>>> 107f6ad (final changes)
             {error && (
               <Alert
                 type="error"
@@ -90,41 +110,38 @@ export const RegisterPage: React.FC = () => {
               />
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Input
-                label="Full Name"
-                placeholder="e.g. Ramesh Chandra"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                leftIcon={<User className="w-4 h-4" />}
-                error={fieldErrors.name}
-              />
+            <Input
+              label="Name"
+              placeholder="e.g. Ramesh Chandra"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              error={fieldErrors.name}
+            />
 
-              <div className="flex flex-col gap-1.5">
-                <label className="text-xs font-semibold text-slate-700">Department</label>
-                <select
-                  value={department}
-                  onChange={(e) => setDepartment(e.target.value as Department)}
-                  className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600/30 focus:border-blue-600"
-                >
-                  <option value="Finance">Finance Department</option>
-                  <option value="Manufacturing">Manufacturing Department</option>
-                  <option value="HR">Human Resources</option>
-                  <option value="Executive">Executive</option>
-                </select>
-              </div>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm font-medium text-gray-800">Department</label>
+              <select
+                value={department}
+                onChange={(e) => setDepartment(e.target.value as Department)}
+                className="w-full bg-white border border-gray-300 rounded-md px-3 py-1.5 text-sm text-gray-900 focus:outline-none focus:border-blue-600 cursor-pointer"
+              >
+                <option value="Finance">Finance</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="HR">Human Resources</option>
+                <option value="Executive">Executive</option>
+              </select>
             </div>
 
             <Input
-              label="Corporate Email Address"
+              label="Email"
               type="email"
-              placeholder="name@demo-company.com"
+              placeholder="user@demo-company.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              leftIcon={<Mail className="w-4 h-4" />}
               error={fieldErrors.email}
             />
 
+<<<<<<< HEAD
             <Input
               label="Organization / Company Name"
               placeholder="Apex Global Industries"
@@ -142,14 +159,28 @@ export const RegisterPage: React.FC = () => {
               leftIcon={<Lock className="w-4 h-4" />}
               error={fieldErrors.password}
             />
+=======
+            <div>
+              <Input
+                label="Password"
+                isPassword
+                placeholder="Enter password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={fieldErrors.password}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                Password must contain at least 1 capital letter.
+              </p>
+            </div>
+>>>>>>> 107f6ad (final changes)
 
             <Input
               label="Confirm Password"
               isPassword
-              placeholder="••••••••••••"
+              placeholder="Confirm password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              leftIcon={<Lock className="w-4 h-4" />}
               error={fieldErrors.confirmPassword}
             />
 
@@ -160,15 +191,15 @@ export const RegisterPage: React.FC = () => {
               isLoading={isLoading}
               className="pill-btn w-full mt-2 rounded-full bg-blue-700 hover:bg-blue-800 border-0"
             >
-              Complete Registration
+              Register
             </Button>
           </form>
-        </Card>
+        </div>
 
-        <p className="text-center text-xs text-slate-500">
-          Already have an enterprise account?{' '}
-          <Link to="/login" className="text-blue-700 font-semibold hover:underline">
-            Sign in to existing account
+        <p className="text-center text-xs text-gray-500">
+          Already have an account?{' '}
+          <Link to="/login" className="text-blue-600 hover:underline font-medium">
+            Sign in
           </Link>
         </p>
       </div>

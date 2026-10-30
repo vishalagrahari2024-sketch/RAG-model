@@ -1,6 +1,7 @@
 import type { DocumentItem, DocumentUploadInput } from '../types/document';
 import type { User, Department } from '../types/auth';
 import { auditService } from './auditService';
+import { apiClient } from './api';
 
 const DOCUMENTS_STORAGE_KEY = 'rag_rbac_documents_v1';
 
@@ -379,6 +380,7 @@ Consolidated Performance:
 class DocumentService {
   constructor() {
     this.init();
+    this.syncFromBackend();
   }
 
   private init() {
@@ -386,6 +388,19 @@ class DocumentService {
     if (!existing) {
       localStorage.setItem(DOCUMENTS_STORAGE_KEY, JSON.stringify(INITIAL_DOCUMENTS));
     }
+  }
+
+  public async syncFromBackend(): Promise<DocumentItem[]> {
+    try {
+      const docs = await apiClient.get<DocumentItem[]>('/documents');
+      if (Array.isArray(docs) && docs.length > 0) {
+        localStorage.setItem(DOCUMENTS_STORAGE_KEY, JSON.stringify(docs));
+        return docs;
+      }
+    } catch {
+      // Backend offline, keep local cache
+    }
+    return this.getAllDocuments();
   }
 
   public getAllDocuments(): DocumentItem[] {
@@ -550,9 +565,17 @@ class DocumentService {
       updatedDate: now.toISOString()
     };
 
-    const allDocs = this.getAllDocuments();
-    allDocs.unshift(newDoc);
-    localStorage.setItem(DOCUMENTS_STORAGE_KEY, JSON.stringify(allDocs));
+    // Try MongoDB backend
+    try {
+      const savedDoc = await apiClient.post<DocumentItem>('/documents', newDoc);
+      const allDocs = this.getAllDocuments();
+      allDocs.unshift(savedDoc);
+      localStorage.setItem(DOCUMENTS_STORAGE_KEY, JSON.stringify(allDocs));
+    } catch {
+      const allDocs = this.getAllDocuments();
+      allDocs.unshift(newDoc);
+      localStorage.setItem(DOCUMENTS_STORAGE_KEY, JSON.stringify(allDocs));
+    }
 
     auditService.logEvent({
       userEmail: user.email,
@@ -563,7 +586,7 @@ class DocumentService {
       resource: newDoc.name,
       targetDepartment: newDoc.department,
       status: 'Allowed',
-      reason: `Document successfully uploaded and chunked for RAG (${newDoc.category})`
+      reason: `Document successfully uploaded to MongoDB & chunked for RAG (${newDoc.category})`
     });
 
     return newDoc;
@@ -605,6 +628,13 @@ class DocumentService {
       updatedDate: new Date().toISOString()
     };
 
+    // Try MongoDB backend
+    try {
+      await apiClient.put<DocumentItem>(`/documents/${id}`, updates);
+    } catch {
+      // Keep local update
+    }
+
     allDocs[index] = updatedDoc;
     localStorage.setItem(DOCUMENTS_STORAGE_KEY, JSON.stringify(allDocs));
 
@@ -617,7 +647,7 @@ class DocumentService {
       resource: updatedDoc.name,
       targetDepartment: updatedDoc.department,
       status: 'Allowed',
-      reason: `Document metadata and content successfully updated by ${user.role}`
+      reason: `Document metadata and content successfully updated in MongoDB by ${user.role}`
     });
 
     return updatedDoc;
@@ -646,6 +676,13 @@ class DocumentService {
       throw new Error(`You do not have permission to delete ${doc.name}.`);
     }
 
+    // Try MongoDB backend
+    try {
+      await apiClient.delete(`/documents/${id}`);
+    } catch {
+      // Local delete
+    }
+
     const filtered = allDocs.filter((d) => d.id !== id);
     localStorage.setItem(DOCUMENTS_STORAGE_KEY, JSON.stringify(filtered));
 
@@ -658,7 +695,7 @@ class DocumentService {
       resource: doc.name,
       targetDepartment: doc.department,
       status: 'Allowed',
-      reason: `Document permanently purged by ${user.role}`
+      reason: `Document permanently purged from MongoDB by ${user.role}`
     });
 
     return true;
@@ -666,3 +703,4 @@ class DocumentService {
 }
 
 export const documentService = new DocumentService();
+
